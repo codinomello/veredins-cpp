@@ -1,0 +1,1 @@
+/usr/sbin/c++ -O3 -DNDEBUG -Wl,--dependency-file=CMakeFiles/veredins.dir/link.d CMakeFiles/veredins.dir/src/game/game.cpp.o CMakeFiles/veredins.dir/src/main.cpp.o -o veredins  tools/raylib/raylib/libraylib.a -lpthread /usr/lib/libOpenGL.so /usr/lib/libGLX.so /usr/lib/librt.a -lm -ldl -lm

@@ -1,0 +1,8 @@
+# Arquivos
+.env
+
+# Pastas
+./build
+./tests
+./tools
+./.vscode
