@@ -165,16 +165,16 @@ tools/raylib/raylib/external/glfw/src/clean: tools/raylib/raylib/external/glfw/s
 # Target rules for target CMakeFiles/veredins.dir
 
 # All Build rule for target.
-CMakeFiles/veredins.dir/all: tools/raylib/raylib/CMakeFiles/raylib.dir/all
 CMakeFiles/veredins.dir/all: tools/raylib/raylib/external/glfw/src/CMakeFiles/glfw.dir/all
+CMakeFiles/veredins.dir/all: tools/raylib/raylib/CMakeFiles/raylib.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/mello/projects/veredins-cpp/build/CMakeFiles --progress-num=33,34,35 "Built target veredins"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/mello/projects/veredins-cpp/build/CMakeFiles --progress-num=33,34,35,36,37,38,39,40 "Built target veredins"
 .PHONY : CMakeFiles/veredins.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/veredins.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mello/projects/veredins-cpp/build/CMakeFiles 34
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mello/projects/veredins-cpp/build/CMakeFiles 39
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/veredins.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/mello/projects/veredins-cpp/build/CMakeFiles 0
 .PHONY : CMakeFiles/veredins.dir/rule
@@ -186,7 +186,7 @@ veredins: CMakeFiles/veredins.dir/rule
 # codegen rule for target.
 CMakeFiles/veredins.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/mello/projects/veredins-cpp/build/CMakeFiles --progress-num=33,34,35 "Finished codegen for target veredins"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/mello/projects/veredins-cpp/build/CMakeFiles --progress-num=33,34,35,36,37,38,39,40 "Finished codegen for target veredins"
 .PHONY : CMakeFiles/veredins.dir/codegen
 
 # clean rule for target.

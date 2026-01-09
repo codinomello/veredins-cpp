@@ -2,7 +2,12 @@ veredins: \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/Scrt1.o \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/crti.o \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o \
+  CMakeFiles/veredins.dir/src/game/entity/creature.cpp.o \
+  CMakeFiles/veredins.dir/src/game/entity/player.cpp.o \
+  CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.o \
   CMakeFiles/veredins.dir/src/game/game.cpp.o \
+  CMakeFiles/veredins.dir/src/game/input/input.cpp.o \
+  CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.o \
   CMakeFiles/veredins.dir/src/main.cpp.o \
   tools/raylib/raylib/libraylib.a \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libpthread.a \
@@ -54,7 +59,17 @@ veredins: \
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o:
 
+CMakeFiles/veredins.dir/src/game/entity/creature.cpp.o:
+
+CMakeFiles/veredins.dir/src/game/entity/player.cpp.o:
+
+CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.o:
+
 CMakeFiles/veredins.dir/src/game/game.cpp.o:
+
+CMakeFiles/veredins.dir/src/game/input/input.cpp.o:
+
+CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.o:
 
 CMakeFiles/veredins.dir/src/main.cpp.o:
 

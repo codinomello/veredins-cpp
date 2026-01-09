@@ -233,6 +233,78 @@ update_mappings/fast:
 	$(MAKE) $(MAKESILENT) -f tools/raylib/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/build.make tools/raylib/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/build
 .PHONY : update_mappings/fast
 
+src/game/entity/creature.o: src/game/entity/creature.cpp.o
+.PHONY : src/game/entity/creature.o
+
+# target to build an object file
+src/game/entity/creature.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/src/game/entity/creature.cpp.o
+.PHONY : src/game/entity/creature.cpp.o
+
+src/game/entity/creature.i: src/game/entity/creature.cpp.i
+.PHONY : src/game/entity/creature.i
+
+# target to preprocess a source file
+src/game/entity/creature.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/src/game/entity/creature.cpp.i
+.PHONY : src/game/entity/creature.cpp.i
+
+src/game/entity/creature.s: src/game/entity/creature.cpp.s
+.PHONY : src/game/entity/creature.s
+
+# target to generate assembly for a file
+src/game/entity/creature.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/src/game/entity/creature.cpp.s
+.PHONY : src/game/entity/creature.cpp.s
+
+src/game/entity/player.o: src/game/entity/player.cpp.o
+.PHONY : src/game/entity/player.o
+
+# target to build an object file
+src/game/entity/player.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/src/game/entity/player.cpp.o
+.PHONY : src/game/entity/player.cpp.o
+
+src/game/entity/player.i: src/game/entity/player.cpp.i
+.PHONY : src/game/entity/player.i
+
+# target to preprocess a source file
+src/game/entity/player.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/src/game/entity/player.cpp.i
+.PHONY : src/game/entity/player.cpp.i
+
+src/game/entity/player.s: src/game/entity/player.cpp.s
+.PHONY : src/game/entity/player.s
+
+# target to generate assembly for a file
+src/game/entity/player.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/src/game/entity/player.cpp.s
+.PHONY : src/game/entity/player.cpp.s
+
+src/game/entity/veredim.o: src/game/entity/veredim.cpp.o
+.PHONY : src/game/entity/veredim.o
+
+# target to build an object file
+src/game/entity/veredim.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.o
+.PHONY : src/game/entity/veredim.cpp.o
+
+src/game/entity/veredim.i: src/game/entity/veredim.cpp.i
+.PHONY : src/game/entity/veredim.i
+
+# target to preprocess a source file
+src/game/entity/veredim.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.i
+.PHONY : src/game/entity/veredim.cpp.i
+
+src/game/entity/veredim.s: src/game/entity/veredim.cpp.s
+.PHONY : src/game/entity/veredim.s
+
+# target to generate assembly for a file
+src/game/entity/veredim.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.s
+.PHONY : src/game/entity/veredim.cpp.s
+
 src/game/game.o: src/game/game.cpp.o
 .PHONY : src/game/game.o
 
@@ -256,6 +328,54 @@ src/game/game.s: src/game/game.cpp.s
 src/game/game.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/src/game/game.cpp.s
 .PHONY : src/game/game.cpp.s
+
+src/game/input/input.o: src/game/input/input.cpp.o
+.PHONY : src/game/input/input.o
+
+# target to build an object file
+src/game/input/input.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/src/game/input/input.cpp.o
+.PHONY : src/game/input/input.cpp.o
+
+src/game/input/input.i: src/game/input/input.cpp.i
+.PHONY : src/game/input/input.i
+
+# target to preprocess a source file
+src/game/input/input.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/src/game/input/input.cpp.i
+.PHONY : src/game/input/input.cpp.i
+
+src/game/input/input.s: src/game/input/input.cpp.s
+.PHONY : src/game/input/input.s
+
+# target to generate assembly for a file
+src/game/input/input.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/src/game/input/input.cpp.s
+.PHONY : src/game/input/input.cpp.s
+
+src/game/input/shortcuts.o: src/game/input/shortcuts.cpp.o
+.PHONY : src/game/input/shortcuts.o
+
+# target to build an object file
+src/game/input/shortcuts.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.o
+.PHONY : src/game/input/shortcuts.cpp.o
+
+src/game/input/shortcuts.i: src/game/input/shortcuts.cpp.i
+.PHONY : src/game/input/shortcuts.i
+
+# target to preprocess a source file
+src/game/input/shortcuts.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.i
+.PHONY : src/game/input/shortcuts.cpp.i
+
+src/game/input/shortcuts.s: src/game/input/shortcuts.cpp.s
+.PHONY : src/game/input/shortcuts.s
+
+# target to generate assembly for a file
+src/game/input/shortcuts.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/veredins.dir/build.make CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.s
+.PHONY : src/game/input/shortcuts.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
@@ -299,9 +419,24 @@ help:
 	@echo "... glfw"
 	@echo "... raylib"
 	@echo "... veredins"
+	@echo "... src/game/entity/creature.o"
+	@echo "... src/game/entity/creature.i"
+	@echo "... src/game/entity/creature.s"
+	@echo "... src/game/entity/player.o"
+	@echo "... src/game/entity/player.i"
+	@echo "... src/game/entity/player.s"
+	@echo "... src/game/entity/veredim.o"
+	@echo "... src/game/entity/veredim.i"
+	@echo "... src/game/entity/veredim.s"
 	@echo "... src/game/game.o"
 	@echo "... src/game/game.i"
 	@echo "... src/game/game.s"
+	@echo "... src/game/input/input.o"
+	@echo "... src/game/input/input.i"
+	@echo "... src/game/input/input.s"
+	@echo "... src/game/input/shortcuts.o"
+	@echo "... src/game/input/shortcuts.i"
+	@echo "... src/game/input/shortcuts.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

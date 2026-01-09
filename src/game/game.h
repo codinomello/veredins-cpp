@@ -4,7 +4,7 @@
 #include "core/types.h"
 
 struct Game {
-    bool running;
+    bool is_running;
     f32  time;
 };
 

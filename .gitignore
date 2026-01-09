@@ -2,7 +2,6 @@
 .env
 
 # Pastas
-./build
-./tests
-./tools
-./.vscode
+build
+tests
+tools

@@ -72,10 +72,52 @@ include CMakeFiles/veredins.dir/flags.make
 CMakeFiles/veredins.dir/codegen:
 .PHONY : CMakeFiles/veredins.dir/codegen
 
+CMakeFiles/veredins.dir/src/game/entity/creature.cpp.o: CMakeFiles/veredins.dir/flags.make
+CMakeFiles/veredins.dir/src/game/entity/creature.cpp.o: /home/mello/projects/veredins-cpp/src/game/entity/creature.cpp
+CMakeFiles/veredins.dir/src/game/entity/creature.cpp.o: CMakeFiles/veredins.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mello/projects/veredins-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/veredins.dir/src/game/entity/creature.cpp.o"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/veredins.dir/src/game/entity/creature.cpp.o -MF CMakeFiles/veredins.dir/src/game/entity/creature.cpp.o.d -o CMakeFiles/veredins.dir/src/game/entity/creature.cpp.o -c /home/mello/projects/veredins-cpp/src/game/entity/creature.cpp
+
+CMakeFiles/veredins.dir/src/game/entity/creature.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/veredins.dir/src/game/entity/creature.cpp.i"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mello/projects/veredins-cpp/src/game/entity/creature.cpp > CMakeFiles/veredins.dir/src/game/entity/creature.cpp.i
+
+CMakeFiles/veredins.dir/src/game/entity/creature.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/veredins.dir/src/game/entity/creature.cpp.s"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mello/projects/veredins-cpp/src/game/entity/creature.cpp -o CMakeFiles/veredins.dir/src/game/entity/creature.cpp.s
+
+CMakeFiles/veredins.dir/src/game/entity/player.cpp.o: CMakeFiles/veredins.dir/flags.make
+CMakeFiles/veredins.dir/src/game/entity/player.cpp.o: /home/mello/projects/veredins-cpp/src/game/entity/player.cpp
+CMakeFiles/veredins.dir/src/game/entity/player.cpp.o: CMakeFiles/veredins.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mello/projects/veredins-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/veredins.dir/src/game/entity/player.cpp.o"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/veredins.dir/src/game/entity/player.cpp.o -MF CMakeFiles/veredins.dir/src/game/entity/player.cpp.o.d -o CMakeFiles/veredins.dir/src/game/entity/player.cpp.o -c /home/mello/projects/veredins-cpp/src/game/entity/player.cpp
+
+CMakeFiles/veredins.dir/src/game/entity/player.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/veredins.dir/src/game/entity/player.cpp.i"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mello/projects/veredins-cpp/src/game/entity/player.cpp > CMakeFiles/veredins.dir/src/game/entity/player.cpp.i
+
+CMakeFiles/veredins.dir/src/game/entity/player.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/veredins.dir/src/game/entity/player.cpp.s"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mello/projects/veredins-cpp/src/game/entity/player.cpp -o CMakeFiles/veredins.dir/src/game/entity/player.cpp.s
+
+CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.o: CMakeFiles/veredins.dir/flags.make
+CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.o: /home/mello/projects/veredins-cpp/src/game/entity/veredim.cpp
+CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.o: CMakeFiles/veredins.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mello/projects/veredins-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.o"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.o -MF CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.o.d -o CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.o -c /home/mello/projects/veredins-cpp/src/game/entity/veredim.cpp
+
+CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.i"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mello/projects/veredins-cpp/src/game/entity/veredim.cpp > CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.i
+
+CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.s"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mello/projects/veredins-cpp/src/game/entity/veredim.cpp -o CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.s
+
 CMakeFiles/veredins.dir/src/game/game.cpp.o: CMakeFiles/veredins.dir/flags.make
 CMakeFiles/veredins.dir/src/game/game.cpp.o: /home/mello/projects/veredins-cpp/src/game/game.cpp
 CMakeFiles/veredins.dir/src/game/game.cpp.o: CMakeFiles/veredins.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mello/projects/veredins-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/veredins.dir/src/game/game.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mello/projects/veredins-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/veredins.dir/src/game/game.cpp.o"
 	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/veredins.dir/src/game/game.cpp.o -MF CMakeFiles/veredins.dir/src/game/game.cpp.o.d -o CMakeFiles/veredins.dir/src/game/game.cpp.o -c /home/mello/projects/veredins-cpp/src/game/game.cpp
 
 CMakeFiles/veredins.dir/src/game/game.cpp.i: cmake_force
@@ -86,10 +128,38 @@ CMakeFiles/veredins.dir/src/game/game.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/veredins.dir/src/game/game.cpp.s"
 	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mello/projects/veredins-cpp/src/game/game.cpp -o CMakeFiles/veredins.dir/src/game/game.cpp.s
 
+CMakeFiles/veredins.dir/src/game/input/input.cpp.o: CMakeFiles/veredins.dir/flags.make
+CMakeFiles/veredins.dir/src/game/input/input.cpp.o: /home/mello/projects/veredins-cpp/src/game/input/input.cpp
+CMakeFiles/veredins.dir/src/game/input/input.cpp.o: CMakeFiles/veredins.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mello/projects/veredins-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/veredins.dir/src/game/input/input.cpp.o"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/veredins.dir/src/game/input/input.cpp.o -MF CMakeFiles/veredins.dir/src/game/input/input.cpp.o.d -o CMakeFiles/veredins.dir/src/game/input/input.cpp.o -c /home/mello/projects/veredins-cpp/src/game/input/input.cpp
+
+CMakeFiles/veredins.dir/src/game/input/input.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/veredins.dir/src/game/input/input.cpp.i"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mello/projects/veredins-cpp/src/game/input/input.cpp > CMakeFiles/veredins.dir/src/game/input/input.cpp.i
+
+CMakeFiles/veredins.dir/src/game/input/input.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/veredins.dir/src/game/input/input.cpp.s"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mello/projects/veredins-cpp/src/game/input/input.cpp -o CMakeFiles/veredins.dir/src/game/input/input.cpp.s
+
+CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.o: CMakeFiles/veredins.dir/flags.make
+CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.o: /home/mello/projects/veredins-cpp/src/game/input/shortcuts.cpp
+CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.o: CMakeFiles/veredins.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mello/projects/veredins-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.o"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.o -MF CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.o.d -o CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.o -c /home/mello/projects/veredins-cpp/src/game/input/shortcuts.cpp
+
+CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.i"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mello/projects/veredins-cpp/src/game/input/shortcuts.cpp > CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.i
+
+CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.s"
+	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mello/projects/veredins-cpp/src/game/input/shortcuts.cpp -o CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.s
+
 CMakeFiles/veredins.dir/src/main.cpp.o: CMakeFiles/veredins.dir/flags.make
 CMakeFiles/veredins.dir/src/main.cpp.o: /home/mello/projects/veredins-cpp/src/main.cpp
 CMakeFiles/veredins.dir/src/main.cpp.o: CMakeFiles/veredins.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mello/projects/veredins-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/veredins.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/mello/projects/veredins-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/veredins.dir/src/main.cpp.o"
 	/usr/sbin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/veredins.dir/src/main.cpp.o -MF CMakeFiles/veredins.dir/src/main.cpp.o.d -o CMakeFiles/veredins.dir/src/main.cpp.o -c /home/mello/projects/veredins-cpp/src/main.cpp
 
 CMakeFiles/veredins.dir/src/main.cpp.i: cmake_force
@@ -102,13 +172,23 @@ CMakeFiles/veredins.dir/src/main.cpp.s: cmake_force
 
 # Object files for target veredins
 veredins_OBJECTS = \
+"CMakeFiles/veredins.dir/src/game/entity/creature.cpp.o" \
+"CMakeFiles/veredins.dir/src/game/entity/player.cpp.o" \
+"CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.o" \
 "CMakeFiles/veredins.dir/src/game/game.cpp.o" \
+"CMakeFiles/veredins.dir/src/game/input/input.cpp.o" \
+"CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.o" \
 "CMakeFiles/veredins.dir/src/main.cpp.o"
 
 # External object files for target veredins
 veredins_EXTERNAL_OBJECTS =
 
+veredins: CMakeFiles/veredins.dir/src/game/entity/creature.cpp.o
+veredins: CMakeFiles/veredins.dir/src/game/entity/player.cpp.o
+veredins: CMakeFiles/veredins.dir/src/game/entity/veredim.cpp.o
 veredins: CMakeFiles/veredins.dir/src/game/game.cpp.o
+veredins: CMakeFiles/veredins.dir/src/game/input/input.cpp.o
+veredins: CMakeFiles/veredins.dir/src/game/input/shortcuts.cpp.o
 veredins: CMakeFiles/veredins.dir/src/main.cpp.o
 veredins: CMakeFiles/veredins.dir/build.make
 veredins: CMakeFiles/veredins.dir/compiler_depend.ts
@@ -118,7 +198,7 @@ veredins: /usr/lib/libGLX.so
 veredins: /usr/lib/librt.a
 veredins: /usr/lib/libm.so
 veredins: CMakeFiles/veredins.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/mello/projects/veredins-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable veredins"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/mello/projects/veredins-cpp/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable veredins"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/veredins.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
