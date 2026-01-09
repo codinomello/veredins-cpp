@@ -1,20 +1,23 @@
 #ifndef GAME_CORE_TYPES_H
 #define GAME_CORE_TYPES_H
 
+#include <cstdint>
+#include <string>
 
-#include <stdint.h>
+// Inteiros de tamanho fixo (positivos e negativos)
+using i8 = int8_t;
+using i16 = int16_t;
+using i32 = int32_t;
+using i64 = int64_t;
 
-typedef int8_t   i8;
-typedef int16_t  i16;
-typedef int32_t  i32;
-typedef int64_t  i64;
+// Inteiros de tamanho fixo (sem sinal)
+using u8 = uint8_t;
+using u16 = uint16_t;
+using u32 = uint32_t;
+using u64 = uint64_t;
 
-typedef uint8_t  u8;
-typedef uint16_t u16;
-typedef uint32_t u32;
-typedef uint64_t u64;
-
-typedef float    f32;
-typedef double   f64;
+// Tipos de ponto flutuante
+using f32 = float;
+using f64 = double;
 
 #endif // GAME_CORE_TYPES_H
