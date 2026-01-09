@@ -2,12 +2,12 @@
 #define GAME_ENTITY_PLAYER_H
 
 #include "game/core/types.h"
+#include "raylib.h"
 
 typedef struct Player {
     u32 id;
 
-    f32 x;
-    f32 y;
+    Vector2 pos;
     f32 speed;
 
     i32 health;
@@ -17,7 +17,7 @@ typedef struct Player {
 } Player;
 
 void player_init(Player* player, f32 x, f32 y);
-void player_update(Player* player, f32 dt, f32 dir_x, f32 dir_y);
+void player_update(Player* player, f32 dt, f32 dx, f32 dy);
 void player_draw(const Player* player);
 void player_take_damage(Player* player, f32 damage);
 

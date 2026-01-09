@@ -2,10 +2,8 @@
 *.o
 *.exe
 .env
-CMakeCache.txt
 
 # Pastas
 build/
 tests/
 tools/
-CMakeFiles/

@@ -1,12 +1,17 @@
 #ifndef GAME_GAME_H
 #define GAME_GAME_H
 
-#include "core/types.h"
+#include <string>
 
-struct Game {
+#include "core/types.h"
+#include "raylib.h"
+
+typedef struct Game {
     bool is_running;
+    std::string title;
+    Color background_color;
     f32  time;
-};
+} Game;
 
 void game_init(Game* game);
 void game_update(Game* game, f32 dt);

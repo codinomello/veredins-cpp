@@ -1,7 +1,8 @@
-#ifndef GAME_ENTITY_CREATURE_H
-#define GAME_ENTITY_CREATURE_H
+#ifndef GAME_ENTITY_VEREDIM_H
+#define GAME_ENTITY_VEREDIM_H
 
 #include "game/core/types.h"
+#include "raylib.h"
 
 typedef enum VeredimElementType {
     ELEMENT_NONE     = 0, // Bitmask (faz um bit shift de 1 bit para esquerda a cada elemento)
@@ -13,11 +14,18 @@ typedef enum VeredimElementType {
     ELEMENT_ICE      = 1 << 5
 } VeredimElementType;
 
+typedef enum VeredimState {
+    VEREDIM_IDLE,
+    VEREDIM_FOLLOWING,
+    VEREDIM_ATTACKING,
+    VEREDIM_DECEASED
+} VeredimState;
+
 typedef struct Veredim {
     u32 id;
 
-    f32 x;
-    f32 y;
+    Vector2 pos;
+    Vector2 target_pos;
 
     i32 health;
     i32 max_health;
@@ -26,10 +34,13 @@ typedef struct Veredim {
 
     i32 attack;
     i32 defense;
+    
+    VeredimState state;
 } Veredim;
 
-void veredim_init(Veredim* v, f32 x, f32 y, u32 element_mask);
-void veredim_update(Veredim* v, f32 dt);
-void veredim_draw(const Veredim* v);
+Veredim veredim_init(Veredim* veredim, f32 x, f32 y, u32 element);
+void veredim_update(Veredim* veredim, f32 dt, f32 target_x, f32 target_y, u32 index);
+Color veredim_get_color(u32 element);
+void veredim_draw(const Veredim* veredim);
 
-#endif // GAME_ENTITY_CREATURE_H
+#endif // GAME_ENTITY_VEREDIM_H

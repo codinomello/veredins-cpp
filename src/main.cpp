@@ -1,22 +1,27 @@
-#include "raylib.h"
 #include "game/game.h"
+#include "raylib.h"
+
+constexpr int WINDOW_WIDTH = 1280;
+constexpr int WINDOW_HEIGHT = 720;
 
 int main(void) {
-    InitWindow(1280, 720, "Veredins");
-    SetTargetFPS(60);
-
     Game game = {
         .is_running = true,
-        .time = 0.0f
+        .title = "Veredins",
+        .background_color = LIGHTGRAY,
+        .time = GetTime()
     };
-    game_init(&game);
 
+    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, game.title.c_str());
+    SetTargetFPS(60);
+
+    game_init(&game);
     while (!WindowShouldClose() && game.is_running) {
         f32 dt = GetFrameTime();
         game_update(&game, dt);
 
         BeginDrawing();
-        ClearBackground(WHITE);
+        ClearBackground(game.background_color);
         game_render(&game);
         EndDrawing();
     }
