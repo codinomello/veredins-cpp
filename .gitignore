@@ -1,7 +1,11 @@
 # Arquivos
+*.o
+*.exe
 .env
+CMakeCache.txt
 
 # Pastas
-build
-tests
-tools
+build/
+tests/
+tools/
+CMakeFiles/

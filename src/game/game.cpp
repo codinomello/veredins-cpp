@@ -16,7 +16,7 @@ void game_init(Game* game) {
 
 void game_update(Game* game, f32 dt) {
     (void)game;
-
+    
     input_update(&input);
     player_update(&player, dt, input.x, input.y);
 }
