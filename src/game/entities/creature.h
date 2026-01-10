@@ -1,23 +1,35 @@
-#ifndef GAME_ENTITY_CREATURE_H
-#define GAME_ENTITY_CREATURE_H
+#ifndef GAME_ENTITIES_CREATURE_H
+#define GAME_ENTITIES_CREATURE_H
 
+#include "../element/element.h"
 #include "../core/types.h"
+#include "raylib.h"
 
-typedef enum CreatureType {
-    CREATURE_TYPE_NPC,
-    CREATURE_TYPE_MONSTER,
-    CREATURE_TYPE_BOSS
-} CreatureType;
+typedef enum CreatureState {
+    CREATURE_IDLE,
+    CREATURE_WANDER,
+    CREATURE_CHASE,
+    CREATURE_ATTACK,
+    CREATURE_DEAD
+} CreatureState;
 
 typedef struct Creature {
-    u32 id;
-    f32 x;
-    f32 y;
+    Vector2 position;
+    Vector2 velocity;
+    f32 radius;
+    f32 speed;
+    f32 attack_cooldown;
+    f32 attack_timer;
     i32 health;
     i32 max_health;
-    i32 attack;
-    i32 defense;
-    CreatureType type;
+    u32 attack;
+    u32 id;
+    u32 element_mask;
+    CreatureState state;
 } Creature;
 
-#endif // GAME_ENTITY_CREATURE_H
+void creature_init(Creature* c, f32 x, f32 y);
+void creature_update(Creature* c, f32 dt, Vector2 player_pos);
+void creature_draw(const Creature* c);
+
+#endif // GAME_ENTITIES_CREATURE_H
