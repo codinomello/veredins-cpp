@@ -4,31 +4,39 @@
 #include "../core/math.h"
 #include "veredim.h"
 #include "player.h"
+#include "creature.h"
 #include "raylib.h"
 
 void veredim_init(Veredim* v, f32 x, f32 y, u32 element_mask) {
-    v->position.x   = x;
-    v->position.y   = y;
-    v->target.x     = x;
-    v->target.y     = y;
-    v->velocity.x   = 0.0f;
-    v->velocity.y   = 0.0f;
-    v->size.width   = 16.0f;
-    v->size.height  = 16.0f;
-    v->speed        = 80.0f;
-    v->radius       = 8.0f;
-    v->angle        = 0.0f;
-    v->orbit_speed  = 1.0f;
-    v->orbit_radius = 90.0f;
-    v->attack_cooldown = 0.6f;
-    v->attack_timer   = 0.0f;
-    v->health       = 60;
-    v->max_health   = 60;
-    v->attack       = 12;
-    v->defense      = 8;
-    v->id           = 0;
-    v->element_mask = element_mask;
-    v->state        = VEREDIM_FOLLOW;
+    *v = (Veredim) {
+        .position = {
+            x, y
+        },
+        .target = {
+            x, y
+        },
+        .velocity = {
+            1.0f, 1.0f
+        },
+        .size = {
+            16.0f, 16.0f
+        },
+        .speed        = 80.0f,
+        .radius       = 8.0f,
+        .angle        = 0.0f,
+        .orbit_speed  = 1.0f,
+        .orbit_radius = 90.0f,
+        .attack_cooldown = 0.6f,
+        .attack_timer   = 0.0f,
+        .health       = 60,
+        .max_health   = 60,
+        .attack       = 12,
+        .defense      = 8,
+        .id           = 0,
+        .element_mask = element_mask,
+        .state        = VEREDIM_FOLLOW,
+        .is_alive     = true
+    };
 }
 
 void veredim_follow(Veredim* v, Player* p, u32 index, f32 dt) {
@@ -49,27 +57,39 @@ void veredim_follow(Veredim* v, Player* p, u32 index, f32 dt) {
     v->position.y = lerp(v->position.y, v->target.y, 6.0f * dt);
 }
 
-void veredim_attack(Veredim* v, f32 dt) {
-    v->attack_timer -= dt;
-
-    if (v->attack_timer > 0.0f) {
+void veredim_attack(Veredim* v, Creature* c, f32 dt) {
+    if (!c || !c->is_alive) {
+        v->state = VEREDIM_RETURN;
         return;
     }
 
-    // Cooldown terminou → volta a seguir
-    v->attack_timer = v->attack_cooldown;
-    v->state = VEREDIM_FOLLOW;
+    // gruda no inimigo
+    Vector2 dir = vector2_normalize(vector2_subtract(c->position, v->position));
+    v->position = vector2_add(v->position, vector2_scale(dir, 100.0f * dt));
+
+    // dano por segundo
+    f32 dmg = v->attack * dt;
+
+    if (veredim_element_is_strong(v->element_mask, c->element_mask)) {
+        dmg *= 2.0f;
+    }
+
+    c->health -= dmg;
+
+    if (c->health <= 0.0f) {
+        c->is_alive = false;
+        v->state = VEREDIM_RETURN;
+    }
 }
 
-
-void veredim_update(Veredim* v, Player* p, u32 index, f32 dt) {
+void veredim_update(Veredim* v, Player* p, Creature* c, u32 index, f32 dt) {
     switch (v->state) {
         case VEREDIM_FOLLOW:
             veredim_follow(v, p, index, dt);
             break;
 
         case VEREDIM_ATTACK:
-            veredim_attack(v, dt);
+            veredim_attack(v, c, dt);
             break;
 
         case VEREDIM_STUN:

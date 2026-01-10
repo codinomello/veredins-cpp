@@ -10,15 +10,13 @@
 #include "raylib.h"
 
 typedef struct Game {
-    bool is_running;
     std::string title;
-    Color background_color;
     f64  time;
+    Color background_color;
     GameCamera game_camera;
     Camera2D rl_camera;
     Font font;
-
-    Game() : is_running(false), title(""), background_color(WHITE), time(0.0), game_camera{}, rl_camera{}, font{} {}
+    bool is_running;
 } Game;
 
 void game_init(Game* game);

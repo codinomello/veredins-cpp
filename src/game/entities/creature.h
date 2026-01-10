@@ -26,6 +26,7 @@ typedef struct Creature {
     u32 id;
     u32 element_mask;
     CreatureState state;
+    bool is_alive;
 } Creature;
 
 void creature_init(Creature* c, f32 x, f32 y);

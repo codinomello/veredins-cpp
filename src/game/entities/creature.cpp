@@ -3,8 +3,12 @@
 
 void creature_init(Creature* c, f32 x, f32 y) {
     *c = (Creature) {
-        .position = { x, y },
-        .velocity = { 0.0f, 0.0f },
+        .position = {
+            x, y
+        },
+        .velocity = {
+            0.0f, 0.0f
+        },
         .radius = 15.0f,
         .speed = 60.0f,
         .attack_cooldown = 1.5f,

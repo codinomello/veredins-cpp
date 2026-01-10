@@ -25,11 +25,13 @@ static std::vector<std::unique_ptr<Creature>> creatures;
 
 void game_init(Game* game) {
     // inicialização do jogo
-    game->is_running = true;
-    game->title = "Veredins";
-    game->background_color = WHITE;
-    game->font = LoadFontEx(FONT_PATH, UI_FONT_SIZE, NULL, 0);
-    game->time = GetTime();
+    *game = (Game) {
+        .title = "Veredins",
+        .time = GetTime(),
+        .background_color = WHITE,
+        .font = LoadFontEx(FONT_PATH, UI_FONT_SIZE, NULL, 0),
+        .is_running = true
+    };
 
     // inicialização dos subsistemas
     map = std::make_unique<TileMap>();
@@ -84,6 +86,7 @@ void game_update(Game* game, f32 dt) {
         veredim_update(
             veredins[i].get(),
             player.get(),
+            nullptr,
             i,
             dt
         );

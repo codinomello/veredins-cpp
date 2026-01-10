@@ -20,6 +20,7 @@ typedef struct Player {
     i32 health;
     i32 max_health;
     u32 id;
+    bool is_alive;
     bool is_online;
 } Player;
 

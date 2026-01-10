@@ -19,6 +19,12 @@ Vector2 vector2_add(Vector2 v1, Vector2 v2) {
     return result;
 }
 
+Vector2 vector2_subtract(Vector2 v1, Vector2 v2) {
+    Vector2 result = { v1.x - v2.x, v1.y - v2.y };
+
+    return result;
+}
+
 Vector2 vector2_lerp(Vector2 v1, Vector2 v2, float amount) {
     Vector2 result = {
         0, 0
@@ -26,6 +32,32 @@ Vector2 vector2_lerp(Vector2 v1, Vector2 v2, float amount) {
 
     result.x = v1.x + amount * (v2.x - v1.x);
     result.y = v1.y + amount * (v2.y - v1.y);
+
+    return result;
+}
+
+Vector2 vector2_scale(Vector2 v, float scale) {
+    Vector2 result = { v.x*scale, v.y*scale };
+
+    return result;
+}
+
+Vector2 vector2_normalize(Vector2 v) {
+    Vector2 result = { 0 };
+    float length = sqrtf((v.x*v.x) + (v.y*v.y));
+
+    if (length > 0)
+    {
+        float ilength = 1.0f/length;
+        result.x = v.x*ilength;
+        result.y = v.y*ilength;
+    }
+
+    return result;
+}
+
+float Vector2Distance(Vector2 v1, Vector2 v2) {
+    float result = sqrtf((v1.x - v2.x)*(v1.x - v2.x) + (v1.y - v2.y)*(v1.y - v2.y));
 
     return result;
 }

@@ -9,21 +9,29 @@
 #include "raylib.h"
 
 void player_init(Player* p, f32 x, f32 y, f32 width, f32 height) {
-    p->id          = 0; // 0 como um ID padrão
-    p->position.x  = x;
-    p->position.y  = y;
-    p->size.width  = width;
-    p->size.height = height;
-    p->speed       = 200.0f;
-    p->direction.x = 0.0f;
-    p->direction.y = 0.0f;
-    p->velocity.x  = 0.0f;
-    p->velocity.y  = 0.0f;
-    p->look.x      = 0.0f;
-    p->look.y      = 0.0f;
-    p->health      = 100;
-    p->max_health  = 100;
-    p->is_online   = true;
+    *p = (Player) {
+        .position = {
+            x, y
+        },
+        .direction = {
+            1.0f, 1.0f
+        },
+        .velocity = {
+            0.0f, 0.0f
+        },
+        .look = {
+            0.0f, 0.0f
+        },
+        .size = {
+            width, height
+        },
+        .speed       = 200.0f,
+        .health      = 100,
+        .max_health  = 100,
+        .id          = 0,
+        .is_alive    = true,
+        .is_online   = true,
+    };
 }
 
 void player_update(Player* p, const TileMap* map, Input input, f32 dt) {
@@ -47,7 +55,7 @@ void player_draw(const Player* p) {
     
     DrawEllipse((u32)p->position.x, (u32)p->position.y + 18, 15.0f, 6.0f, ColorAlpha(BLACK, 0.3f));
     
-    DrawCircleV(p->position, 21.0f, BLACK); // Contorno
+    DrawCircleV(p->position, 21.0f, BLACK);
     DrawCircleV(p->position, 20.0f, player_color);
     
     DrawCircleV({p->position.x - 4, p->position.y - 4}, 6.0f, ColorAlpha(WHITE, 0.4f));
