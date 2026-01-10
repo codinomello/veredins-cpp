@@ -1,7 +1,7 @@
 #include "../input/input.h"
 #include "raylib.h"
 
-void input_update(InputState* input) {
+void input_update(Input* input) {
     input->x = 0.0f;
     input->y = 0.0f;
 

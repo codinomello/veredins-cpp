@@ -18,38 +18,26 @@ Veredim veredim_init(Veredim* v, f32 x, f32 y, u32 element) {
         v->element = element,
         v->attack = 12,
         v->defense = 8,
+        v->radius = 8.0f,
+        v->orbit_speed = 1.0f,
         v->state = VEREDIM_FOLLOWING
     };
+
+    // Veredim() : id(0), pos{0,0}, target_pos{0,0}, health(60), max_health(60),
+    //     element(ELEMENT_NONE), attack(12), defense(8), radius(8.0f),
+    //     angle(0.0f), orbit_radius(50.0f), orbit_speed(1.0f), state(VEREDIM_FOLLOWING) {};
 }
 
-void veredim_update(Veredim* v, f32 dt, f32 target_x, f32 target_y, u32 index) {
-    if (v->state != VEREDIM_FOLLOWING) {
-        return;
-    }
-    f32 dx = target_x - v->pos.x;
-    f32 dy = target_y - v->pos.y;
+void veredim_update(Veredim* v, f32 dt, f32 player_x, f32 player_y, u32 index) {
+    if (v->state != VEREDIM_FOLLOWING) return;
 
-    f32 len = std::sqrt(dx * dx + dy * dy);
-    if (len > 1.0f) {
-        dx /= len;
-        dy /= len;
-        v->pos.x += dx * 120.0f * dt;
-        v->pos.y += dy * 120.0f * dt;
-    }
+    f32 t = (f32)GetTime() + (index * 0.5f);
+    f32 target_x = player_x + cosf(t) * 90.0f; 
+    f32 target_y = player_y + sinf(t) * 90.0f;
 
-    switch (v->state) {
-        case VEREDIM_IDLE:
-            break;
-        case VEREDIM_FOLLOWING:
-            f64 angle = index * 0.3f + GetTime();
-            Vector2 offset = {
-                cosf((f32)angle) * 30.0f,
-                sinf((f32)angle) * 30.0f 
-            };
-            v->target_pos = vector2_add(v->pos, offset);
-            v->pos = vector2_lerp(v->pos, v->target_pos, 5.0f * dt);
-            break;
-    }
+    // 2. Segue o alvo suavemente
+    v->pos.x = lerp(v->pos.x, target_x, 6.0f * dt);
+    v->pos.y = lerp(v->pos.y, target_y, 6.0f * dt);
 }
 
 Color veredim_get_color(u32 element) {
@@ -73,15 +61,41 @@ Color veredim_get_color(u32 element) {
 }
 
 void veredim_draw(const Veredim* v) {
-    DrawCircleV(
-        v->pos,
-        14.0f,
-        veredim_get_color(v->element)
-    );
+    // 1. Cores e Variáveis de Efeito
+    Color base_color = veredim_get_color(v->element);
+    
+    // Efeito de pulso para a aura usando o tempo global
+    float time = (float)GetTime();
+    float pulse = sinf(time * 3.0f + (v->pos.x * 0.1f)) * 2.0f; 
+    
+    // 2. Desenhar a Aura (O "Circle" que você pediu)
+    // Desenhamos um círculo vazado com a cor do elemento levemente transparente
+    Color aura_color = ColorAlpha(base_color, 0.6f);
+    DrawCircleLinesV(v->pos, v->radius + 6.0f + pulse, aura_color);
+    
+    // 3. Desenhar o Corpo do Veredim
+    // Desenha uma bordinha escura para dar profundidade
+    DrawCircleV(v->pos, v->radius + 1.0f, BLACK); 
+    DrawCircleV(v->pos, v->radius, base_color);
+    
+    // Adiciona um pequeno brilho no "olho" ou topo para parecer 3D
+    DrawCircleV({v->pos.x - 2, v->pos.y - 2}, v->radius * 0.3f, ColorAlpha(WHITE, 0.5f));
+
+    // 4. Barra de Vida Visual (Mais bonita que apenas texto)
+    float health_bar_width = 30.0f;
+    float health_percent = (float)v->health / (float)v->max_health;
+    Vector2 bar_pos = { v->pos.x - health_bar_width/2.0f, v->pos.y - v->radius - 15.0f };
+
+    // Fundo da barra (Preto)
+    DrawRectangleV(bar_pos, {health_bar_width, 4}, ColorAlpha(BLACK, 0.8f));
+    // Vida atual (Verde ou cor do elemento)
+    DrawRectangleV(bar_pos, {health_bar_width * health_percent, 4}, LIME);
+
+    // Texto de HP bem pequeno e centralizado (opcional, já que a barra resolve)
     DrawText(
-        TextFormat("HP: %d/%d", v->health, v->max_health),
-        (int)v->pos.x - 25,
-        (int)v->pos.y - 30,
+        TextFormat("%d/%d", v->health, v->max_health),
+        (int)v->pos.x - 12,
+        (int)v->pos.y - v->radius - 26,
         10,
         WHITE
     );

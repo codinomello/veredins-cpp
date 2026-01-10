@@ -1,13 +1,15 @@
 #ifndef GAME_UI_UI_H
 #define GAME_UI_UI_H
 
+#include "../constants/constants.h"
 #include "../core/types.h"
+#include "raylib.h"
 
-typedef struct UiComponents {
-   // TODO: adicionar componentes de UI aqui
-} UiComponents;
+typedef struct Ui {
+   // TODO: fazer algo aqui se precisar no futuro
+} Ui;
 
-void ui_fps_draw();
-void ui_elapsed_time_draw(f32 time);
+void ui_fps_draw(const Font& font);
+void ui_elapsed_time_draw(const Font& font, f32 time);
 
 #endif // GAME_UI_UI_H

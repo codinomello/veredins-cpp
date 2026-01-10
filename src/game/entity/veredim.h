@@ -23,18 +23,17 @@ typedef enum VeredimState {
 
 typedef struct Veredim {
     u32 id;
-
     Vector2 pos;
     Vector2 target_pos;
-
     i32 health;
     i32 max_health;
-
     u32 element;
-
     i32 attack;
     i32 defense;
-    
+    f32 radius;
+    f32 angle; // Em graus
+    f32 orbit_radius;
+    f32 orbit_speed; // Em graus por segundo
     VeredimState state;
 } Veredim;
 

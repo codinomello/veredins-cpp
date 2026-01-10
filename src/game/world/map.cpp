@@ -1,16 +1,37 @@
 #include "map.h"
 #include "raylib.h"
 
+#include "map.h"
+#include <cmath> // Para usar sin/cos ou gerar padrões
+
 void map_init(TileMap* map) {
     map->width = MAP_WIDTH;
     map->height = MAP_HEIGHT;
 
     for (i32 y = 0; y < MAP_HEIGHT; y++) {
         for (i32 x = 0; x < MAP_WIDTH; x++) {
-            if (y > MAP_HEIGHT / 2) {
-                map->tiles[y][x] = TILE_GRASS;
-            } else {
+            // 1. Base do mapa é grama
+            map->tiles[y][x] = TILE_GRASS;
+
+            // 2. Gerar "Lagos" (Círculos de água em posições específicas)
+            f32 dist_to_center_lake = std::sqrt(std::pow(x - 10, 2) + std::pow(y - 10, 2));
+            if (dist_to_center_lake < 5.0f) {
+                map->tiles[y][x] = TILE_WATER;
+            }
+
+            // 3. Gerar "Caminhos de Terra" (Usando uma função de onda simples)
+            if (std::abs(sinf(x * 0.2f) * 5.0f + 20.0f - y) < 2.0f) {
                 map->tiles[y][x] = TILE_DIRT;
+            }
+
+            // 4. Bordas do mapa com rochas (obstáculos)
+            if (x == 0 || y == 0 || x == MAP_WIDTH - 1 || y == MAP_HEIGHT - 1) {
+                map->tiles[y][x] = TILE_ROCK;
+            }
+            
+            // 5. Algumas rochas aleatórias pelo mapa
+            if (GetRandomValue(0, 100) > 98) {
+                map->tiles[y][x] = TILE_ROCK;
             }
         }
     }
@@ -19,13 +40,15 @@ void map_init(TileMap* map) {
 Color map_get_tile_color(u32 tile_type) {
     switch (tile_type) {
         case TILE_GRASS:
-            return GREEN;
+            return LIME;
         case TILE_DIRT:
-            return BROWN;
+            return BEIGE;
         case TILE_WATER:
             return BLUE;
+        case TILE_ROCK:
+            return DARKGRAY;
         default:
-            return MAGENTA; // Unknown tile type
+            return BLACK;
     }
 }
 

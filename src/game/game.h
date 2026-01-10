@@ -3,20 +3,22 @@
 
 #include <string>
 
+#include "constants/constants.h"
 #include "core/types.h"
 #include "core/camera.h"
+#include "ui/ui.h"
 #include "raylib.h"
-
-constexpr int WINDOW_WIDTH = 1280;
-constexpr int WINDOW_HEIGHT = 720;
 
 typedef struct Game {
     bool is_running;
     std::string title;
     Color background_color;
-    f32  time;
+    f64  time;
     GameCamera game_camera;
     Camera2D rl_camera;
+    Font font;
+
+    Game() : is_running(false), title(""), background_color(WHITE), time(0.0), game_camera{}, rl_camera{}, font{} {}
 } Game;
 
 void game_init(Game* game);

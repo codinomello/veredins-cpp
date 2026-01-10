@@ -13,4 +13,6 @@ typedef enum TileType {
     TILE_ROCK  = 4
 } TileType;
 
+bool tile_is_solid(TileType t);
+
 #endif // GAME_WORLD_TILE_H

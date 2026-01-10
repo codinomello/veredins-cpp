@@ -3,11 +3,11 @@
 
 #include "../core/types.h"
 
-typedef struct InputState {
+typedef struct Input {
     f32 x;
     f32 y;
-} InputState;
+} Input;
 
-void input_update(InputState* input);
+void input_update(Input* input);
 
 #endif // GAME_INPUT_INPUT_H

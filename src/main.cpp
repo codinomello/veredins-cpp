@@ -5,16 +5,12 @@ extern const int WINDOW_WIDTH;
 extern const int WINDOW_HEIGHT;
 
 int main(void) {
-    Game game = {
-        .is_running = true,
-        .title = "Veredins",
-        .background_color = LIGHTGRAY,
-        .time = GetTime()
-    };
+    Game game;
+    game_init(&game);
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, game.title.c_str());
     SetTargetFPS(60);
 
-    game_init(&game);
+
     while (!WindowShouldClose() && game.is_running) {
         f32 dt = GetFrameTime();
         game_update(&game, dt);
