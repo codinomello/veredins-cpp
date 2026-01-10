@@ -1,4 +1,4 @@
-#include "game/input/input.h"
+#include "../input/input.h"
 #include "raylib.h"
 
 void input_update(InputState* input) {

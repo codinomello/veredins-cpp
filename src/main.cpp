@@ -1,8 +1,8 @@
 #include "game/game.h"
 #include "raylib.h"
 
-constexpr int WINDOW_WIDTH = 1280;
-constexpr int WINDOW_HEIGHT = 720;
+extern const int WINDOW_WIDTH;
+extern const int WINDOW_HEIGHT;
 
 int main(void) {
     Game game = {
@@ -11,7 +11,6 @@ int main(void) {
         .background_color = LIGHTGRAY,
         .time = GetTime()
     };
-
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, game.title.c_str());
     SetTargetFPS(60);
 
@@ -22,10 +21,19 @@ int main(void) {
 
         BeginDrawing();
         ClearBackground(game.background_color);
+        BeginMode2D(game.rl_camera);
+
         game_render(&game);
+        
+        EndMode2D();
+
+        // Render UI - estático
+        game_render_ui(&game);
+
         EndDrawing();
     }
     game_shutdown(&game);
+
     CloseWindow();
     
     return 0;

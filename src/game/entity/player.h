@@ -1,7 +1,7 @@
 #ifndef GAME_ENTITY_PLAYER_H
 #define GAME_ENTITY_PLAYER_H
 
-#include "game/core/types.h"
+#include "../core/types.h"
 #include "raylib.h"
 
 typedef struct Player {

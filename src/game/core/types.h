@@ -2,7 +2,6 @@
 #define GAME_CORE_TYPES_H
 
 #include <cstdint>
-#include <string>
 
 // Inteiros de tamanho fixo (positivos e negativos)
 using i8 = int8_t;

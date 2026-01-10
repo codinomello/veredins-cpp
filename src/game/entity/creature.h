@@ -1,7 +1,7 @@
 #ifndef GAME_ENTITY_CREATURE_H
 #define GAME_ENTITY_CREATURE_H
 
-#include "game/core/types.h"
+#include "../core/types.h"
 
 typedef enum CreatureType {
     CREATURE_TYPE_NPC,

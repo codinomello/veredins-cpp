@@ -1,7 +1,7 @@
 #ifndef GAME_INPUT_INPUT_H
 #define GAME_INPUT_INPUT_H
 
-#include "game/core/types.h"
+#include "../core/types.h"
 
 typedef struct InputState {
     f32 x;

@@ -1,7 +1,7 @@
 #include <cmath>
 
-#include "game/entity/veredim.h"
-#include "game/core/math.h"
+#include "../entity/veredim.h"
+#include "../core/math.h"
 #include "raylib.h"
 
 Veredim veredim_init(Veredim* v, f32 x, f32 y, u32 element) {

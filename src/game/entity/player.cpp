@@ -1,7 +1,7 @@
 #include <cmath>
 
-#include "game/entity/player.h"
-#include "game/core/math.h"
+#include "../core/math.h"
+#include "player.h"
 #include "raylib.h"
 
 void player_init(Player* p, f32 x, f32 y) {
