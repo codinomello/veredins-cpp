@@ -1,6 +1,6 @@
 #include <cmath>
 
-#include "../entity/veredim.h"
+#include "../entities/veredim.h"
 #include "../core/math.h"
 #include "raylib.h"
 
