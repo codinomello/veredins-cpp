@@ -2,8 +2,10 @@
 *.o
 *.exe
 .env
+src/vc140.pdb
 
 # Pastas
 build/
 tests/
-tools/
+include/
+.vscode/

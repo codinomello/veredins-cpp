@@ -1,55 +1,75 @@
-# Configurações
-OS          := LINUX
-SOURCE_DIR  := src
-BUILD_DIR   := build
+# Configurações básicas
 BINARY_NAME := veredins
+BUILD_DIR   := build
+SOURCE_DIR  := src
 
-# Caminho completo do executável
-TARGET      := $(BUILD_DIR)/$(BINARY_NAME)
+# Detecção de sistema operacional
+ifeq ($(OS),Windows_NT)
+    EXE_EXT     := .exe
+    RUN_PREFIX  :=
+    RM          := del /Q /F 2>NUL
+    RMDIR       := rmdir /S /Q 2>NUL
+    MKDIR       := mkdir
+    CMAKE_GENERATOR := -G "MinGW Makefiles"
+    LDFLAGS     := -lraylib -lopengl32 -lgdi32 -lwinmm -static
+else
+    EXE_EXT     :=
+    RUN_PREFIX  := ./
+    RM          := rm -rf
+    RMDIR       := rm -rf
+    MKDIR       := mkdir -p
+    CMAKE_GENERATOR :=
+    LDFLAGS     := -lraylib -lm -lpthread -ldl -lrt -lX11
+endif
 
-# Compilador e flags (usados apenas no target manual, se precisar)
+TARGET      := $(BUILD_DIR)/$(BINARY_NAME)$(EXE_EXT)
+
+# Flags para compilação manual (opcional)
 CXX         := g++
-CXXFLAGS    := -std=c++17 -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow
-LDFLAGS     := -lraylib -lm -lpthread -ldl -lrt -lX11
+CXXFLAGS    := -std=c++20 -Wall -Wextra -pedantic -O2
+INCLUDES    := -I$(SOURCE_DIR) -Iinclude/raylib/src
+DEFINES     := -DVEREDINS_ASSETS_PATH=\"$(CURDIR)/assets/\"
 
-# Targets
-.PHONY: all build run cmake cmake-build cmake-run clean
+# ================================================
+# Targets principais
+# ================================================
 
-# Target padrão (compila e executa com CMake)
+.PHONY: all build run cmake cmake-build cmake-run clean distclean gcc
 
+# PADRÃO AGORA É CMAKE-RUN
 all: cmake-run
 
-# Configura e compila usando CMake (cria a pasta build e gera o binário lá dentro)
+# --- Fluxo CMake (o mais recomendado / padrão) ---
 cmake: cmake-build
 
 cmake-build: $(BUILD_DIR)/Makefile
-	cmake --build $(BUILD_DIR)
+	cmake --build $(BUILD_DIR) --config Release
 
-# Força a configuração do CMake (útil na primeira vez ou após mudar CMakeLists.txt)
-$(BUILD_DIR)/Makefile: 
-	cmake -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Release
+$(BUILD_DIR)/Makefile:
+	-$(MKDIR) "$(BUILD_DIR)" 2>NUL
+	cmake -S . -B $(BUILD_DIR) $(CMAKE_GENERATOR) -DCMAKE_BUILD_TYPE=Release
 
-# Compila e executa usando CMake
 cmake-run: cmake-build
-	./$(TARGET)
+	$(RUN_PREFIX)$(BUILD_DIR)/bin/veredins
 
-# Targets manuais (g++ nu e cru)
+# --- Compilação manual direta (g++ cru) - alternativa ---
+gcc: build
 
 build: $(TARGET)
 
-$(TARGET): $(SOURCE_DIR)/main.cpp | $(BUILD_DIR)
-	$(CXX) $< -o $@ $(CXXFLAGS) $(LDFLAGS)
+SOURCES     := $(wildcard $(SOURCE_DIR)/*.cpp) $(wildcard $(SOURCE_DIR)/**/*.cpp)
+
+$(TARGET): $(SOURCES) | $(BUILD_DIR)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(DEFINES) $^ -o $@ $(LDFLAGS)
 
 run: build
-	./$(TARGET)
+	$(RUN_PREFIX)$(TARGET)
 
-# Utilitários
-
+# --- Utilitários ---
 $(BUILD_DIR):
-	mkdir -p $(BUILD_DIR)
+	$(MKDIR) $(BUILD_DIR)
 
 clean:
-	rm -rf $(BUILD_DIR)
+	$(RMDIR) $(BUILD_DIR)
 
-# Limpeza mais agressiva (remove tudo dentro de build)
 distclean: clean
