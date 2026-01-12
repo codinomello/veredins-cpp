@@ -2,18 +2,14 @@
 #define GAME_CORE_CAMERA_H
 
 #include "types.h"
-
+#include "raylib.h"
 typedef struct GameCamera {
-    f32 x;
-    f32 y;
-
-    f32 target_x;
-    f32 target_y;
-
+    Vector2 position;
+    Vector2 target;
     f32 smooth;
 } GameCamera;
 
-void camera_init(GameCamera* cam, f32 x, f32 y);
-void camera_update(GameCamera* cam, f32 target_x, f32 target_y, f32 dt);
+void camera_init(GameCamera* game_cam, Vector2 position);
+void camera_update(GameCamera* game_cam, Vector2 target, f32 dt);
 
 #endif // GAME_CORE_CAMERA_H

@@ -54,16 +54,12 @@ target_include_directories(veredins PRIVATE
 target_link_libraries(veredins PRIVATE raylib)
 
 # =============================================================================
-# Flags de compilação - warnings fortes
-# =============================================================================
-
-# =============================================================================
 # Flags de compilação - warnings fortes (compatível GCC/Clang + MSVC)
 # =============================================================================
 
 if(MSVC)
     target_compile_options(veredins PRIVATE
-        /W4           # Nível 4 de warnings (o mais próximo de -Wall -Wextra)
+        /W3           # Nível 4 de warnings (o mais próximo de -Wall -Wextra)
         /w14242       # Conversões implícitas possíveis perda de dados
         /w14254       # Operador diferente em tipos aritméticos
         /w14263       # Função não usa seu parâmetro
@@ -94,16 +90,6 @@ else()
         -Wshadow
     )
 endif()
-
-# Otimizações (mantém igual)
-target_compile_options(veredins PRIVATE
-    $<$<CONFIG:Release>:-O3>
-    $<$<CONFIG:Debug>:-O0 -g>
-)
-
-# =============================================================================
-# Otimizações por tipo de build
-# =============================================================================
 
 target_compile_options(veredins PRIVATE
     $<$<CONFIG:Release>:-O3>

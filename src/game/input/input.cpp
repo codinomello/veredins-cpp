@@ -1,23 +1,36 @@
-#include "../input/input.h"
+#include "input.h"
 #include "raylib.h"
 
+void input_init(Input* input) {
+    input->move = { 0.0f, 0.0f };
+    input->whistle = false;
+    input->throw_veredim = false;
+    input->attack = false;
+}
+
 void input_update(Input* input) {
-    input->x = 0.0f;
-    input->y = 0.0f;
+    // reset por frame
+    input->move = { 0.0f, 0.0f };
+    input->whistle = false;
+    input->throw_veredim = false;
+    input->attack = false;
 
-    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) {
-        input->x -= 1.0f;  
+    // movimento
+    if (IsKeyDown(KEY_A)) input->move.x -= 1.0f;
+    if (IsKeyDown(KEY_D)) input->move.x += 1.0f;
+    if (IsKeyDown(KEY_W)) input->move.y -= 1.0f;
+    if (IsKeyDown(KEY_S)) input->move.y += 1.0f;
+
+    // ações
+    if (IsKeyPressed(KEY_SPACE)) {
+        input->whistle = true;
     }
 
-    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) {
-        input->x += 1.0f;
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        input->throw_veredim = true;
     }
 
-    if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP)) {
-        input->y -= 1.0f;  
-    }
-    
-    if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN)) {
-        input->y += 1.0f;
+    if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON)) {
+        input->attack = true;
     }
 }

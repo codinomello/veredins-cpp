@@ -1,8 +1,8 @@
 #ifndef GAME_ENTITY_VEREDIM_H
 #define GAME_ENTITY_VEREDIM_H
 
-#include "../element/element.h"
-#include "../core/types.h"
+#include "game/element/element.h"
+#include "game/core/types.h"
 #include "player.h"
 #include "creature.h"
 #include "raylib.h"

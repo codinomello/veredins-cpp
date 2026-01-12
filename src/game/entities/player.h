@@ -1,9 +1,9 @@
 #ifndef GAME_ENTITY_PLAYER_H
 #define GAME_ENTITY_PLAYER_H
 
-#include "../core/types.h"
-#include "../world/map.h"
-#include "../input/input.h"
+#include "game/core/types.h"
+#include "game/world/map.h"
+#include "game/input/input.h"
 #include "raylib.h"
 
 typedef struct Player {
@@ -25,10 +25,10 @@ typedef struct Player {
 } Player;
 
 void player_init(Player* p, f32 x, f32 y, f32 width, f32 height);
-void player_update(Player* p, const TileMap* map, Input input, f32 dt);
+void player_update(Player* p, const Map* map, Input input, f32 dt);
 void player_draw(const Player* p);
 void player_take_damage(Player* p, f32 damage);
-void player_move_x(Player* p, const TileMap* map);
-void player_move_y(Player* p, const TileMap* map);
+void player_move_x(Player* p, const Map* map);
+void player_move_y(Player* p, const Map* map);
 
 #endif // GAME_ENTITY_PLAYER_H

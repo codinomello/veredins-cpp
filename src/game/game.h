@@ -7,15 +7,15 @@
 #include "core/types.h"
 #include "core/camera.h"
 #include "ui/ui.h"
-#include "raylib.h"
 
 typedef struct Game {
     std::string title;
-    f64  time;
+    f32  time;
     Color background_color;
     GameCamera game_camera;
     Camera2D rl_camera;
-    Font font;
+    Ui ui;
+    Image window_icon;
     bool is_running;
 } Game;
 

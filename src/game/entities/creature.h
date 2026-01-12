@@ -1,8 +1,8 @@
 #ifndef GAME_ENTITIES_CREATURE_H
 #define GAME_ENTITIES_CREATURE_H
 
-#include "../element/element.h"
-#include "../core/types.h"
+#include "game/element/element.h"
+#include "game/core/types.h"
 #include "raylib.h"
 
 typedef enum CreatureState {

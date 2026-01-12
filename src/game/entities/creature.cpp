@@ -1,5 +1,6 @@
-#include "creature.h"
 #include <math.h>
+
+#include "creature.h"
 
 void creature_init(Creature* c, f32 x, f32 y) {
     *c = (Creature) {

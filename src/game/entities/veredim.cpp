@@ -1,10 +1,7 @@
 #include <cmath>
 
-#include "../element/element.h"
-#include "../core/math.h"
+#include "game/core/math.h"
 #include "veredim.h"
-#include "player.h"
-#include "creature.h"
 #include "raylib.h"
 
 void veredim_init(Veredim* v, f32 x, f32 y, u32 element_mask) {

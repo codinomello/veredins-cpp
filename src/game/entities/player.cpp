@@ -1,12 +1,7 @@
 #include <cmath>
 
-#include "../core/math.h"
-#include "../world/map.h"
-#include "../world/tile.h"
-#include "../logic/collision.h"
-#include "../input/input.h"
+#include "game/logic/collision.h"
 #include "player.h"
-#include "raylib.h"
 
 void player_init(Player* p, f32 x, f32 y, f32 width, f32 height) {
     *p = (Player) {
@@ -34,10 +29,12 @@ void player_init(Player* p, f32 x, f32 y, f32 width, f32 height) {
     };
 }
 
-void player_update(Player* p, const TileMap* map, Input input, f32 dt) {
+void player_update(Player* p, const Map* map, Input input, f32 dt) {
     f32 speed = 200.0f;
-    p->direction.x = input.x * speed * dt;
-    p->direction.y = input.y * speed * dt;
+    p->direction = {
+        .x = input.move.x * speed * dt,
+        .y = input.move.y * speed * dt
+    };
 
     player_move_x(p, map);
     player_move_y(p, map);
@@ -76,7 +73,7 @@ void player_draw(const Player* p) {
     DrawText(hp_text, (u32)p->position.x - text_width/2, (u32)p->position.y - 50, 12, WHITE);
 }
 
-void player_move_x(Player* p, const TileMap* map) {
+void player_move_x(Player* p, const Map* map) {
     p->position.x += p->direction.x;
 
     i32 left   = (i32)(p->position.x) / TILE_SIZE;
@@ -86,7 +83,7 @@ void player_move_x(Player* p, const TileMap* map) {
 
     for (i32 y = top; y <= bottom; y++) {
         for (i32 x = left; x <= right; x++) {
-            TileType t = map->tiles[y][x];
+            Tile t = map->tiles[y][x];
             if (!tile_is_solid(t)) continue;
 
             f32 tx = x * TILE_SIZE;
@@ -103,7 +100,7 @@ void player_move_x(Player* p, const TileMap* map) {
     }
 }
 
-void player_move_y(Player* p, const TileMap* map) {
+void player_move_y(Player* p, const Map* map) {
     p->position.y += p->direction.y;
 
     i32 left   = (i32)(p->position.x) / TILE_SIZE;
@@ -113,7 +110,7 @@ void player_move_y(Player* p, const TileMap* map) {
 
     for (i32 y = top; y <= bottom; y++) {
         for (i32 x = left; x <= right; x++) {
-            TileType t = map->tiles[y][x];
+            Tile t = map->tiles[y][x];
             if (!tile_is_solid(t)) continue;
 
             f32 tx = x * TILE_SIZE;

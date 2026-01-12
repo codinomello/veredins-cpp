@@ -1,24 +1,16 @@
+#include <algorithm>
 #include <memory>
 #include <vector>
 #include <string>
 #include <cmath>
 
-#include "game.h"
 #include "constants/constants.h"
-#include "core/camera.h"
-#include "core/math.h"
-#include "entities/player.h"
 #include "entities/veredim.h"
-#include "entities/creature.h"
-#include "input/input.h"
 #include "logic/collision.h"
-#include "world/map.h"
-#include "ui/ui.h"
-#include "raylib.h"
-#include <algorithm>
+#include "game.h"
 
 static std::unique_ptr<Player> player;
-static std::unique_ptr<TileMap> map;
+static std::unique_ptr<Map> map;
 static std::unique_ptr<Input> input;
 static std::vector<std::unique_ptr<Veredim>> veredins;
 static std::vector<std::unique_ptr<Creature>> creatures;
@@ -28,22 +20,33 @@ void game_init(Game* game) {
     *game = (Game) {
         .title = "Veredins",
         .time = GetTime(),
-        .background_color = WHITE,
-        .font = LoadFontEx(FONT_PATH, UI_FONT_SIZE, NULL, 0),
+        .ui = {
+            .background_color = WHITE,
+            .font = LoadFont(FONT_PATH.c_str()),
+            .show_debug = true
+        },
+        .window_icon = LoadImage(WINDOW_ICON_PATH.c_str()),
         .is_running = true
     };
 
+    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, game->title.c_str());
+    SetTargetFPS(60);
+
+    SetWindowIcon(game->window_icon);
+    UnloadImage(game->window_icon);
+
     // inicialização dos subsistemas
-    map = std::make_unique<TileMap>();
+    map = std::make_unique<Map>();
     map_init(map.get());
 
     player = std::make_unique<Player>();
     player_init(player.get(), (f32)WINDOW_WIDTH, (f32)WINDOW_HEIGHT, 30.0f, 30.0f);
 
     input = std::make_unique<Input>();
-
+    input_init(input.get());
+    
     // veredins de teste
-    const u32 total_veredins = 18;
+    const u32 total_veredins = 100;
     for (u32 i = 0; i < total_veredins; ++i) {
         auto v = std::make_unique<Veredim>();
 
@@ -66,13 +69,14 @@ void game_init(Game* game) {
     creatures.push_back(std::move(c));
 
     // câmera
-    camera_init(&game->game_camera, player->position.x, player->position.y);
-    game->rl_camera.target = { game->game_camera.x, game->game_camera.y };
+    camera_init(&game->game_camera, player->position);
+
+    // fazer uma função de init() depois...
+    game->rl_camera.target = { game->game_camera.position };
     game->rl_camera.offset = { 640.0f, 360.0f };
     game->rl_camera.rotation = 0.0f;
     game->rl_camera.zoom = 1.0f;
 }
-
 
 void game_update(Game* game, f32 dt) {
     // input
@@ -161,22 +165,24 @@ void game_update(Game* game, f32 dt) {
     );
 
     // camera (look ahead)
-    player->look.x = player->position.x + input->x * 40.0f;
-    player->look.y = player->position.y + input->y * 40.0f;
+    player->look = {
+        .x = player->position.x + input->move.x * 40.0f,
+        .y = player->position.y + input->move.y * 40.0f,
+    };
 
     camera_update(
         &game->game_camera,
-        player->look.x,
-        player->look.y,
+        player->look,
         dt
     );
 
     // sincroniza câmera raylib
-    game->rl_camera.target.x = game->game_camera.x;
-    game->rl_camera.target.y = game->game_camera.y;
+    game->rl_camera.target = game->game_camera.position;
 
     // tempo
     game->time += dt;
+
+    ui_update(&game->ui, dt);
 }
 
 void game_render(Game* game) {
@@ -190,13 +196,13 @@ void game_render(Game* game) {
         veredim_draw(v.get());
     }
 
-    for (auto& e : creatures) {
-        creature_draw(e.get());
+    for (auto& c : creatures) {
+        creature_draw(c.get());
     }
 
     player_draw(player.get());
 
-    // fim mundo
+    // fim do mundo
     EndMode2D();
 
     // render da interface gráfica estática
@@ -204,19 +210,16 @@ void game_render(Game* game) {
 }
 
 void game_render_ui(Game* game) {
-    // contador de fps
-    ui_fps_draw(game->font);
-    // tempo decorrido
-    ui_elapsed_time_draw(game->font, game->time);
+    ui_draw(&game->ui);
 }
 
 void game_shutdown(Game* game) {
     // descarrega recursos
-    UnloadFont(game->font);
+    UnloadFont(game->ui.font);
 
+    player.reset();
     veredins.clear();
     creatures.clear();
-    player.reset();
     map.reset();
     input.reset();
 

@@ -1,7 +1,7 @@
 #ifndef GAME_ENTITIES_OBJECT
 #define GAME_ENTITIES_OBJECT
 
-#include "../core/types.h"
+#include "game/core/types.h"
 #include "raylib.h"
 
 typedef enum ObjectType {

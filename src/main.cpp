@@ -1,42 +1,41 @@
+#include <memory>
+
 #include "game/game.h"
-#include "raylib.h"
-
-Game game;
-
-extern const int WINDOW_WIDTH;
-extern const int WINDOW_HEIGHT;
 
 int main(void) {
-    // inicializa o jogo
-    game_init(&game);
-    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, game.title.c_str());
-    SetTargetFPS(60);
+    // cria o jogo
+    std::unique_ptr<Game> game = std::make_unique<Game>();
 
-    while (!WindowShouldClose() && game.is_running) {
+    // inicializa lógica do jogo
+    game_init(game.get());
+
+    while (!WindowShouldClose() && game->is_running) {
         // delta time
         f32 dt = GetFrameTime();
 
-        // atualiza o jogo
-        game_update(&game, dt);
+        // atualiza lógica
+        game_update(game.get(), dt);
 
         BeginDrawing();
-        ClearBackground(game.background_color);
-        BeginMode2D(game.rl_camera);
+        ClearBackground(game->background_color);
 
-        // renderiza o jogo
-        game_render(&game);
-        
+        BeginMode2D(game->rl_camera);
+
+        // render do mundo
+        game_render(game.get());
+
         EndMode2D();
 
-        // renderiza interface gráfica estática
-        game_render_ui(&game);
+        // ui fora da camera
+        game_render_ui(game.get());
 
         EndDrawing();
     }
-    // finaliza o jogo
-    game_shutdown(&game);
+
+    // shutdown ordenado
+    game_shutdown(game.get());
 
     CloseWindow();
-    
+
     return 0;
 }
