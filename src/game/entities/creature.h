@@ -1,9 +1,8 @@
 #ifndef GAME_ENTITIES_CREATURE_H
 #define GAME_ENTITIES_CREATURE_H
 
-#include "game/element/element.h"
 #include "game/core/types.h"
-#include "raylib.h"
+#include "entity.h"
 
 typedef enum CreatureState {
     CREATURE_IDLE,
@@ -14,16 +13,14 @@ typedef enum CreatureState {
 } CreatureState;
 
 typedef struct Creature {
-    Vector2 position;
-    Vector2 velocity;
+    Vector2 pos;
+    Vector2 vel;
+    Vector2 dir;
     f32 radius;
     f32 speed;
-    f32 attack_cooldown;
-    f32 attack_timer;
     i32 health;
     i32 max_health;
     u32 attack;
-    u32 id;
     u32 element_mask;
     CreatureState state;
     bool is_alive;

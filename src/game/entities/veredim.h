@@ -1,52 +1,37 @@
 #ifndef GAME_ENTITY_VEREDIM_H
 #define GAME_ENTITY_VEREDIM_H
 
-#include "game/element/element.h"
 #include "game/core/types.h"
+#include "entity.h"
 #include "player.h"
 #include "creature.h"
-#include "raylib.h"
 
-typedef enum VeredimState {
-    VEREDIM_IDLE = 0,
+typedef enum {
+    VEREDIM_IDLE,
     VEREDIM_FOLLOW,
     VEREDIM_THROWN,
     VEREDIM_ATTACK,
     VEREDIM_RETURN,
-    VEREDIM_CARRY,
-    VEREDIM_STUN,
+    VEREDIM_STUN
 } VeredimState;
 
 typedef struct Veredim {
-    Vector2 position;
-    Vector2 target;
-    Vector2 velocity;
-    struct {
-        f32 width;
-        f32 height;
-    } size;
-    f32 speed;
+    Vector2 pos;
+    Vector2 vel;
+    Vector2 dir;
     f32 radius;
-    f32 angle;
     f32 orbit_speed;
     f32 orbit_radius;
-    f32 attack_cooldown;
-    f32 attack_timer;
-    i32 health;
-    i32 max_health;
+    i32 health, max_health;
     i32 attack;
-    i32 defense;
-    u32 id;
-    u32 element_mask;
+    u16 count;
+    u16 element_mask;
     VeredimState state;
     bool is_alive;
 } Veredim;
 
-void veredim_init(Veredim* v, f32 x, f32 y, u32 element_mask);
-void veredim_follow(Veredim* v, Player* p, u32 index, f32 dt);
-void veredim_attack(Veredim* v, Creature* c, f32 dt);
+void veredim_init(Veredim* v, f32 x, f32 y, u16 element_mask);
 void veredim_update(Veredim* v, Player* p, Creature* c, u32 index, f32 dt);
-Color veredim_get_color(u32 element_mask);
 void veredim_draw(const Veredim* v);
 bool veredim_element_is_strong(u32 a, u32 b);
 

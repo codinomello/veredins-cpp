@@ -1,7 +1,7 @@
 #ifndef GAME_INPUT_INPUT_H
 #define GAME_INPUT_INPUT_H
 
-#include "../core/types.h"
+#include "game/core/types.h"
 #include "raylib.h"
 
 typedef struct Input {

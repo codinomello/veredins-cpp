@@ -1,41 +1,17 @@
-#include <memory>
-
 #include "game/game.h"
 
+Game game;
+
 int main(void) {
-    // cria o jogo
-    std::unique_ptr<Game> game = std::make_unique<Game>();
+    game_init(&game);
 
-    // inicializa lógica do jogo
-    game_init(game.get());
-
-    while (!WindowShouldClose() && game->is_running) {
-        // delta time
+    while (!WindowShouldClose() && game.is_running) {
         f32 dt = GetFrameTime();
-
-        // atualiza lógica
-        game_update(game.get(), dt);
-
-        BeginDrawing();
-        ClearBackground(game->background_color);
-
-        BeginMode2D(game->rl_camera);
-
-        // render do mundo
-        game_render(game.get());
-
-        EndMode2D();
-
-        // ui fora da camera
-        game_render_ui(game.get());
-
-        EndDrawing();
+        game_update(&game, dt);
+        game_render(&game);
     }
-
-    // shutdown ordenado
-    game_shutdown(game.get());
-
-    CloseWindow();
+    
+    game_shutdown(&game);
 
     return 0;
 }

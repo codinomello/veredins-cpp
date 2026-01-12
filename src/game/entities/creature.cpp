@@ -1,69 +1,51 @@
-#include <math.h>
-
 #include "creature.h"
+#include "raymath.h"
 
 void creature_init(Creature* c, f32 x, f32 y) {
-    *c = (Creature) {
-        .position = {
-            x, y
-        },
-        .velocity = {
-            0.0f, 0.0f
-        },
+    *c = {
+        .pos = { x, y },
         .radius = 15.0f,
         .speed = 60.0f,
-        .attack_cooldown = 1.5f,
-        .attack_timer = 0.0f,
         .health = 50,
         .max_health = 50,
         .attack = 10,
-        .id = 0,
         .element_mask = ELEMENT_NONE,
-        .state = CREATURE_IDLE
+        .state = CREATURE_IDLE,
+        .is_alive = true // Certifique-se que este campo existe no struct
     };
 }
 
 void creature_update(Creature* c, f32 dt, Vector2 player_pos) {
-    if (c->state == CREATURE_DEAD) return;
+    if (!c->is_alive || c->state == CREATURE_DEAD) return;
 
-    // distância ao player
-    f32 dx = player_pos.x - c->position.x;
-    f32 dy = player_pos.y - c->position.y;
-    f32 dist2 = dx*dx + dy*dy;
+    // 1. Lógica de Distância Simplificada
+    f32 dist = Vector2Distance(c->pos, player_pos);
 
-    if (dist2 < 200.0f * 200.0f) {
+    if (dist < 250.0f) { // Raio de detecção
         c->state = CREATURE_CHASE;
     } else {
         c->state = CREATURE_IDLE;
     }
 
+    // 2. Movimento Suave (MoveTowards substitui toda a matemática de dx/dy/sqrt)
     if (c->state == CREATURE_CHASE) {
-        f32 len = sqrtf(dist2);
-        if (len > 0.01f) {
-            c->velocity.x = (dx / len) * c->speed;
-            c->velocity.y = (dy / len) * c->speed;
-        }
-    } else {
-        c->velocity.x = 0;
-        c->velocity.y = 0;
+        // Move em direção ao player sem ultrapassar a velocidade máxima
+        c->pos = Vector2MoveTowards(c->pos, player_pos, c->speed * dt);
     }
-
-    c->position.x += c->velocity.x * dt;
-    c->position.y += c->velocity.y * dt;
 }
 
 void creature_draw(const Creature* c) {
-    if (c->state == CREATURE_DEAD) return;
+    if (!c->is_alive) return;
 
-    DrawCircleV(c->position, c->radius, RED);
+    // Desenha o corpo com contorno para combinar com o Player/Veredins
+    DrawCircleV(c->pos, c->radius + 1.0f, BLACK);
+    DrawCircleV(c->pos, c->radius, PURPLE); // Mudei para Roxo para diferenciar do HP
 
-    // vida
-    float hp = (float)c->health / (float)c->max_health;
-    DrawRectangle(
-        (int)(c->position.x - 12),
-        (int)(c->position.y - c->radius - 10),
-        (int)(24 * hp),
-        3,
-        LIME
-    );
+    // Barra de Vida Simplificada
+    f32 hp_ratio = (f32)c->health / (f32)c->max_health;
+    Vector2 bar_size = { 30.0f, 4.0f };
+    Vector2 bar_pos = { c->pos.x - bar_size.x/2, c->pos.y - c->radius - 12.0f };
+
+    DrawRectangleV(bar_pos, bar_size, ColorAlpha(BLACK, 0.5f)); // Fundo
+    DrawRectangleV(bar_pos, { bar_size.x * hp_ratio, bar_size.y }, RED); // Vida
 }

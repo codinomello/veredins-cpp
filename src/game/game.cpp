@@ -1,227 +1,127 @@
 #include <algorithm>
-#include <memory>
-#include <vector>
-#include <string>
-#include <cmath>
 
-#include "constants/constants.h"
-#include "entities/veredim.h"
-#include "logic/collision.h"
+#include "logic/logic.h"
+#include "raymath.h"
 #include "game.h"
 
-static std::unique_ptr<Player> player;
-static std::unique_ptr<Map> map;
-static std::unique_ptr<Input> input;
-static std::vector<std::unique_ptr<Veredim>> veredins;
-static std::vector<std::unique_ptr<Creature>> creatures;
-
-void game_init(Game* game) {
-    // inicialização do jogo
-    *game = (Game) {
-        .title = "Veredins",
-        .time = GetTime(),
+void game_init(Game* g) {
+    // inicializa a janela antes de carregar recursos
+    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Veredins");
+    SetTargetFPS(60);
+    *g = {
         .ui = {
-            .background_color = WHITE,
-            .font = LoadFont(FONT_PATH.c_str()),
-            .show_debug = true
+            .font = LoadFont(FONT_PATH.c_str())
         },
-        .window_icon = LoadImage(WINDOW_ICON_PATH.c_str()),
+        .elapsed_time = 0,
         .is_running = true
     };
 
-    InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, game->title.c_str());
-    SetTargetFPS(60);
+    // inicialização dos structs (mapa, player & ui)
+    map_init(&g->map);
+    player_init(&g->player, WINDOW_WIDTH/2.0f, WINDOW_HEIGHT/2.0f);
+    ui_init(&g->ui, LoadFont(FONT_PATH.c_str()));
 
-    SetWindowIcon(game->window_icon);
-    UnloadImage(game->window_icon);
-
-    // inicialização dos subsistemas
-    map = std::make_unique<Map>();
-    map_init(map.get());
-
-    player = std::make_unique<Player>();
-    player_init(player.get(), (f32)WINDOW_WIDTH, (f32)WINDOW_HEIGHT, 30.0f, 30.0f);
-
-    input = std::make_unique<Input>();
-    input_init(input.get());
-    
-    // veredins de teste
-    const u32 total_veredins = 100;
-    for (u32 i = 0; i < total_veredins; ++i) {
-        auto v = std::make_unique<Veredim>();
-
-        veredim_init(
-            v.get(),
-            player->position.x,
-            player->position.y,
-            (1u << (i / 3))
-        );
-
-        v->state = VEREDIM_FOLLOW;
-        v->angle = (f32)i * 0.5f;
-
-        veredins.push_back(std::move(v));
+    // inicialização dos veredins
+    for (int i = 0; i < INITIAL_VEREDIM_COUNT; i++) {
+        std::unique_ptr v = std::make_unique<Veredim>();
+        veredim_init(v.get(), g->player.pos.x, g->player.pos.y, (1 << (i/3)));
+        g->veredins.push_back(std::move(v));
     }
 
-    // inimigo de teste
-    auto c = std::make_unique<Creature>();
-    creature_init(c.get(), player->position.x + 200.0f, player->position.y);
-    creatures.push_back(std::move(c));
-
-    // câmera
-    camera_init(&game->game_camera, player->position);
-
-    // fazer uma função de init() depois...
-    game->rl_camera.target = { game->game_camera.position };
-    game->rl_camera.offset = { 640.0f, 360.0f };
-    game->rl_camera.rotation = 0.0f;
-    game->rl_camera.zoom = 1.0f;
-}
-
-void game_update(Game* game, f32 dt) {
-    // input
-    input_update(input.get());
-
-    // player
-    player_update(player.get(), map.get(), *input, dt);
-
-    // veredins (follow / attack)
-    for (u32 i = 0; i < veredins.size(); ++i) {
-        veredim_update(
-            veredins[i].get(),
-            player.get(),
-            nullptr,
-            i,
-            dt
-        );
-    }
-
-    // creatures (ai / movimento)
-    for (auto& c: creatures) {
-        creature_update(c.get(), dt, player->position);
-    }
-
-    // combate: veredim x creature
-    for (auto& v : veredins) {
-        for (auto& c : creatures) {
-            if (c->state == CREATURE_DEAD) {
-                continue;
-            }
-
-            if (circles_overlap(
-                v->position, v->radius,
-                c->position, c->radius
-            )) {
-                if (v->state == VEREDIM_FOLLOW && v->attack_timer <= 0.0f) {
-                    v->state = VEREDIM_ATTACK;
-                    v->attack_timer = v->attack_cooldown;
-
-                    i32 damage = v->attack;
-
-                    if (veredim_element_is_strong(
-                        v->element_mask,
-                        c->element_mask
-                    )) {
-                        damage *= 2;
-                    }
-
-                    c->health -= damage;
-
-                    if (c->health <= 0) {
-                        c->state = CREATURE_DEAD;
-                    }
-                }
-            }
-        }
-    }
-
-    // combate: creature x player
-    for (auto& c : creatures) {
-        if (c->state == CREATURE_DEAD) {
-            continue;
-        }
-
-        if (circles_overlap(
-            c->position, c->radius,
-            player->position, player->radius
-        )) {
-            if (c->attack_timer <= 0.0f) {
-                player->health -= c->attack;
-                c->attack_timer = c->attack_cooldown;
-            }
-        }
-    }
-
-    // remove creatures mortas
-    creatures.erase(
-        std::remove_if(
-            creatures.begin(),
-            creatures.end(),
-            [](const std::unique_ptr<Creature>& c) {
-                return c->state == CREATURE_DEAD;
-            }
-        ),
-        creatures.end()
-    );
-
-    // camera (look ahead)
-    player->look = {
-        .x = player->position.x + input->move.x * 40.0f,
-        .y = player->position.y + input->move.y * 40.0f,
+    // câmera raylib
+    g->rl_camera = { 
+        .offset = { WINDOW_WIDTH/2.0f, WINDOW_HEIGHT/2.0f },
+        .target = g->player.pos,
+        .rotation = 0.0f,
+        .zoom = 1.0f
     };
-
-    camera_update(
-        &game->game_camera,
-        player->look,
-        dt
-    );
-
-    // sincroniza câmera raylib
-    game->rl_camera.target = game->game_camera.position;
-
-    // tempo
-    game->time += dt;
-
-    ui_update(&game->ui, dt);
 }
 
-void game_render(Game* game) {
-    // mundo
-    BeginMode2D(game->rl_camera);
+void game_update(Game* g, f32 dt) {
+    // atualizações de sistema
+    player_update(&g->player, &g->map, &g->input, dt);
+    input_update(&g->input);
+    ui_update(&g->ui, dt);
 
-    map_draw(map.get());
+    // variáveis auxiliares
+    Creature* target = g->creatures.empty() ? nullptr : g->creatures[0].get();
+    u32 veredim_count = (u32)g->veredins.size();
 
-    // entidades
-    for (auto& v : veredins) {
-        veredim_draw(v.get());
+    // lógica de arremesso
+    if (g->input.throw_veredim) {
+        for (u32 i = 0; i < veredim_count; i++) {
+            Veredim* v = g->veredins[i].get();
+            if (v->state == VEREDIM_FOLLOW) {
+                Vector2 mouse_world = GetScreenToWorld2D(GetMousePosition(), g->rl_camera);
+                v->state = VEREDIM_THROWN;
+                v->vel = Vector2Scale(Vector2Normalize(Vector2Subtract(mouse_world, v->pos)), 400.0f);
+                break; 
+            }
+        }
     }
 
-    for (auto& c : creatures) {
-        creature_draw(c.get());
+    u32 total_veredins = (u32)g->veredins.size();
+    // loop único de veredins: movimento, colisão e combate
+    for (u32 i = 0; i < total_veredins; i++) {
+        Veredim* v = g->veredins[i].get();
+        
+        veredim_update(v, &g->player, target, i, dt);
+        logic_check_map_collision(&v->pos, v->radius, &g->map);
+
+        if (g->input.whistle) {
+            DrawCircleV(
+                g->player.pos,
+                100,
+                Fade(YELLOW, 0.3f)
+            );
+            v->state = VEREDIM_FOLLOW;
+            v->vel = { 1.0f, 1.0f};
+        }
+
+        // combate contra criaturas
+        for (u32 j = 0; j < (u32)g->creatures.size(); j++) {
+            Creature* c = g->creatures[j].get();
+            if (CheckCollisionCircles(v->pos, v->radius, c->pos, c->radius)) {
+                c->health -= 10;
+                if (c->health <= 0) c->is_alive = false;
+            }
+        }
     }
 
-    player_draw(player.get());
+    // atualização e limpeza de criaturas (loop decrescente)
+    for (int i = (int)g->creatures.size() - 1; i >= 0; i--) {
+        Creature* c = g->creatures[i].get();
+        if (!c->is_alive) {
+            // remove o elemento na posição i
+            g->creatures.erase(g->creatures.begin() + i);
+        } else {
+            creature_update(c, dt, g->player.pos);
+        }
+    }
 
-    // fim do mundo
+    // câmera e tempo
+    Vector2 look_dir = Vector2Scale(g->input.move, 40.0f);
+    Vector2 look_target = Vector2Add(g->player.pos, look_dir);
+    g->rl_camera.target = Vector2Lerp(g->rl_camera.target, look_target, 6.0f * dt);
+    
+    g->elapsed_time += dt;
+}
+
+void game_render(Game* g) {
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+    BeginMode2D(g->rl_camera);
+    map_draw(&g->map);
+    for (auto& v : g->veredins) veredim_draw(v.get());
+    for (auto& c : g->creatures) creature_draw(c.get());
+    player_draw(&g->player);
     EndMode2D();
-
-    // render da interface gráfica estática
-    game_render_ui(game);
+    ui_draw(&g->ui);
+    EndDrawing();
 }
 
-void game_render_ui(Game* game) {
-    ui_draw(&game->ui);
-}
 
-void game_shutdown(Game* game) {
-    // descarrega recursos
-    UnloadFont(game->ui.font);
-
-    player.reset();
-    veredins.clear();
-    creatures.clear();
-    map.reset();
-    input.reset();
-
-    game->is_running = false;
+void game_shutdown(Game* g) {
+    UnloadFont(g->ui.font);
+    CloseWindow();
 }

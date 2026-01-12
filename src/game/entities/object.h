@@ -11,10 +11,8 @@ typedef enum ObjectType {
 } ObjectType;
 
 typedef struct Object {
-    Vector2 position;
+    Vector2 pos;
     f32 radius;
-    u32 id;
-    u32 element_mask;
     u16 weight;
     u16 carriers;
     bool id_delivered;

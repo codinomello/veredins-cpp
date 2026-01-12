@@ -1,12 +1,5 @@
 #include "ui.h"
 
 void ui_draw_debug(Ui* ui) {
-    DrawTextEx(
-        ui->font,
-        "DEBUG MODE",
-        (Vector2){ UI_MARGIN, UI_MARGIN + 44 },
-        UI_FONT_SIZE,
-        1.0f,
-        YELLOW
-    );
+    ui_draw_label(ui, "DEBUG MODE", 44.0f, YELLOW);
 }
