@@ -8,7 +8,6 @@
 
 typedef struct Player {
     Vector2 pos;
-    Vector2 vel;
     Vector2 dir;
     f32 radius;
     f32 speed;

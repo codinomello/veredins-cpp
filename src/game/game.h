@@ -8,26 +8,33 @@
 #include "entities/creature.h"
 #include "entities/veredim.h"
 #include "entities/player.h"
+#include "entities/object.h"
 #include "input/input.h"
 #include "world/map.h"
 #include "ui/ui.h"
 
 typedef struct Game {
+    f32 time;
+    f32 wave;
+    f32 wave_timer;
     std::vector<std::unique_ptr<Veredim>> veredins;
     std::vector<std::unique_ptr<Creature>> creatures;
+    std::vector<std::unique_ptr<Object>> objects;
     Player player;
     Map map;
     GameCamera game_camera;
-    Camera2D rl_camera;
+    Camera2D raylib_camera;
     Input input;
     Ui ui;
-    f32  elapsed_time;
     bool is_running;
+    bool is_game_over;
 } Game;
 
 void game_init(Game* g);
+void game_spawn_wave(Game* g);
 void game_update(Game* g, f32 dt);
 void game_render(Game* g);
 void game_shutdown(Game* g);
+
 
 #endif // GAME_GAME_H

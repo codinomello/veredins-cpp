@@ -7,8 +7,8 @@ SOURCE_DIR  := src
 ifeq ($(OS),Windows_NT)
     EXE_EXT     := .exe
     RUN_PREFIX  :=
-    RM          := del /Q /F 2>NUL
-    RMDIR       := rmdir /S /Q 2>NUL
+    RM          := del /Q /F
+    RMDIR       := rmdir /S /Q
     MKDIR       := mkdir
     CMAKE_GENERATOR := -G "MinGW Makefiles"
     LDFLAGS     := -lraylib -lopengl32 -lgdi32 -lwinmm -static

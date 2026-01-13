@@ -3,14 +3,25 @@
 
 #include <string>
 
-#include "game/core/types.h"
+#include "types.h"
 
-// constantes
+// janela
 inline constexpr i32 WINDOW_WIDTH = 1280;
 inline constexpr i32 WINDOW_HEIGHT = 720;
-inline constexpr u32 INITIAL_VEREDIM_COUNT = 21;
+
+// veredins
+inline constexpr u32 INITIAL_VEREDIM_COUNT = 3;
+inline constexpr u32 MAX_VEREDIM_COUNT = 3;
+
+// level
+inline constexpr u32 XP_PER_LEVEL = 100;
+inline constexpr u32 MAX_LEVEL = 50;
+
+// mapa
 inline constexpr u32 MAP_WIDTH = 64;
 inline constexpr u32 MAP_HEIGHT = 64;
+
+// fonte
 inline constexpr u32 UI_FONT_SIZE = 16;
 inline constexpr f32 UI_MARGIN = 8;
 

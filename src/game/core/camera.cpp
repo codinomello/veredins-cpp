@@ -1,16 +1,19 @@
+#include "game/core/constants.h"
 #include "camera.h"
+
 #include "raymath.h"
 
-void camera_init(GameCamera* cam, Vector2 pos) {
-    // inicializa posição e alvo no mesmo ponto
-    cam->pos = pos;
-    cam->target = pos;
-    cam->smooth = 8.0f;
+void camera_init(GameCamera* game_cam, Vector2 pos) {
+    *game_cam = {
+        .pos = pos,
+        .target = pos,
+        .offset = Vector2{ WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f },
+        .smooth = 8.0f
+    };
 }
 
-void camera_update(GameCamera* cam, Vector2 target, f32 dt) {
-    cam->target = target;
-    
-    // interpola a posição inteira de uma vez usando a função da raymath
-    cam->pos = Vector2Lerp(cam->pos, cam->target, cam->smooth * dt);
+void camera_update(GameCamera* game_cam, Vector2 target, f32 dt) {
+    // interpolação suave (lerp) para evitar movimentos bruscos
+    game_cam->pos = Vector2Lerp(game_cam->pos, game_cam->target, game_cam->smooth * dt);
+    game_cam->target = target;
 }
