@@ -22,19 +22,18 @@ typedef struct Game {
     std::vector<std::unique_ptr<Object>> objects;
     Player player;
     Map map;
-    GameCamera game_camera;
-    Camera2D raylib_camera;
+    GameCamera camera;
     Input input;
     Ui ui;
+    Image window_icon;
+    Color background_color;
     bool is_running;
     bool is_game_over;
 } Game;
 
 void game_init(Game* g);
-void game_spawn_wave(Game* g);
 void game_update(Game* g, f32 dt);
 void game_render(Game* g);
 void game_shutdown(Game* g);
-
 
 #endif // GAME_GAME_H

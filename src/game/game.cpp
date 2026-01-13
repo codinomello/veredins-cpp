@@ -12,12 +12,21 @@ void game_init(Game* g) {
     g->wave = 1;
     g->is_running = true;
     g->is_game_over = false;
+    g->window_icon = LoadImage(WINDOW_ICON_PATH); 
+    if (g->window_icon.data != nullptr) {
+        SetWindowIcon(g->window_icon);
+        UnloadImage(g->window_icon); 
+    }
+    g->ui.font = LoadFontEx(FONT_PATH, UI_FONT_SIZE, nullptr, 0);
+    g->background_color = GetColor(0x181818FF);
+    // configura o filtro da fonte para não ficar borrada ao redimensionar
+    SetTextureFilter(g->ui.font.texture, TEXTURE_FILTER_BILINEAR);
 
     // inicializa mundo e player
     map_init(&g->map);
-    player_init(&g->player, WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f);
-    camera_init(&g->game_camera, g->player.pos);
-    
+    player_init(&g->player, { WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f });
+    camera_init(&g->camera, g->player.pos);
+
     // inicializa ui
     ui_init(&g->ui, GetFontDefault());
 
@@ -28,18 +37,7 @@ void game_init(Game* g) {
         g->veredins.push_back(std::move(v));
     }
 
-    game_spawn_wave(g);
-}
-
-void game_spawn_wave(Game* g) {
-    // spawna criaturas baseado na wave atual
-    for (int i = 0; i < g->wave * 2; i++) {
-        auto c = std::make_unique<Creature>();
-        f32 rx = (f32)GetRandomValue(100, 1100);
-        f32 ry = (f32)GetRandomValue(100, 600);
-        creature_init(c.get(), rx, ry, ELEMENT_PLANT, (u8)g->wave);
-        g->creatures.push_back(std::move(c));
-    }
+    logic_spawn_wave(g);
 }
 
 void game_update(Game* g, f32 dt) {
@@ -47,38 +45,59 @@ void game_update(Game* g, f32 dt) {
         if (IsKeyPressed(KEY_R)) game_init(g);
         return;
     }
-
     g->time += dt;
 
-    // input de troca de elemento
-    if (IsKeyPressed(KEY_TAB)) {
-        g->ui.selected_element = (EntityType)(g->ui.selected_element << 1);
-        if (g->ui.selected_element > ELEMENT_LIGHT) g->ui.selected_element = ELEMENT_FIRE;
-    }
-
-    // update player e colisão
+    // atualiza o player
     player_update(&g->player, &g->map, &g->input, dt);
-    input_update(&g->input, &g->game_camera);
-    logic_check_map_collision(&g->player.pos, g->player.radius, &g->map);
 
-    // update camera
-    camera_update(&g->game_camera, g->player.pos, dt);
+    // atualiza o input
+    input_update(&g->input, &g->camera, &g->ui);
 
-    // update veredins (sistema de órbita e seguimento)
+    // atualiza a camera
+    camera_update(&g->camera, g->player.pos, g->input.move, dt);
+
+    // atualiza os veredins (sistema de órbita e seguimento)
     for (auto i = 0; i < g->veredins.size(); i++) {
         veredim_update(g->veredins[i].get(), &g->player, (u32)g->veredins.size(), (u32)i, dt);
-        logic_check_map_collision(&g->veredins[i]->pos, g->veredins[i]->radius, &g->map);
     }
 
-    // update criaturas
+    // TEMPORARIO
+    if (g->input.throw_veredim) {
+        for (u32 i = 0; i < (u32)g->veredins.size(); i++) {
+            Veredim* v = (g->veredins)[i].get();
+            
+            // só arremessa se ele estiver a seguir o player (disponível na órbita)
+            if (v->state == VEREDIM_FOLLOW) {
+                v->state = VEREDIM_THROWN;
+                v->state_timer = 0.0f;
+                
+                Vector2 diff = Vector2Subtract(g->input.mouse_pos, v->pos);
+                v->vel = Vector2Scale(Vector2Normalize(diff), 500.0f);
+                
+                break; 
+            }
+        }
+    }
+  
+    // atualiza as criaturas
     for (auto& c : g->creatures) {
         if (c->is_alive) {
             creature_update(c.get(), dt, g->player.pos);
-            logic_check_map_collision(&c->pos, c->radius, &g->map);
         }
     }
 
-    // sincroniza ui
+    // remove as criaturas
+    for (int i = g->creatures.size() - 1; i >= 0; i--) {
+        Creature* c = g->creatures[i].get();
+        if (!c->is_alive) {
+            // remove o elemento na posição i
+            g->creatures.erase(g->creatures.begin() + i);
+        } else {
+            creature_update(c, dt, g->player.pos);
+        }
+    }
+
+    // sincroniza a ui
     g->ui.score = g->wave * 100;
     g->ui.veredim_count = (i32)g->veredins.size();
     if (g->player.health <= 0) g->is_game_over = true;
@@ -86,23 +105,19 @@ void game_update(Game* g, f32 dt) {
 
 void game_render(Game* g) {
     BeginDrawing();
-    ClearBackground(GetColor(0x181818FF));
-    g->raylib_camera = {
-        .offset = g->game_camera.offset, // o centro da tela que definimos no init
-        .target = g->game_camera.pos,    // a posição interpolada (suave)
-        .rotation = 0.0f,
-        .zoom = 1.0f
-    };
-    BeginMode2D(g->raylib_camera);
-        
+    ClearBackground(g->background_color);
+    
+    BeginMode2D(g->camera.rl);
+
         // mundo
         map_draw(&g->map);
-        
-        // entidades
+
+        // entidades vetorizadas
         for (auto& o : g->objects)   object_draw(o.get());
         for (auto& c : g->creatures) creature_draw(c.get());
         for (auto& v : g->veredins)  veredim_draw(v.get(), g->time);
         
+        // jogador
         player_draw(&g->player);
 
     EndMode2D();
@@ -114,6 +129,8 @@ void game_render(Game* g) {
 }
 
 void game_shutdown(Game* g) {
+    UnloadFont(g->ui.font);
+    UnloadImage(g->window_icon);
     map_shutdown(&g->map);
     CloseWindow();
 }

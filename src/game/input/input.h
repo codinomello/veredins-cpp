@@ -3,6 +3,7 @@
 
 #include "game/core/types.h"
 #include "game/core/camera.h"
+#include "game/ui/ui.h"
 
 #include "raylib.h"
 
@@ -16,6 +17,6 @@ typedef struct Input {
 } Input;
 
 void input_init(Input* input);
-void input_update(Input* input, GameCamera* game_cam);
+void input_update(Input* input, GameCamera* cam, Ui* ui);
 
 #endif // GAME_INPUT_INPUT_H

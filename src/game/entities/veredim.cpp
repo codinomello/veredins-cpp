@@ -41,7 +41,6 @@ if (!v->is_alive) return;
             };
             v->pos = Vector2Lerp(v->pos, target, 8.0f * dt);
         } break;
-        
         case VEREDIM_THROWN: {
             v->pos = Vector2Add(v->pos, Vector2Scale(v->vel, dt));
             v->vel = Vector2Scale(v->vel, 0.95f); // fricção
@@ -50,7 +49,6 @@ if (!v->is_alive) return;
                 v->state = VEREDIM_RETURN;
             }
         } break;
-        
         case VEREDIM_RETURN: {
             v->pos = Vector2MoveTowards(v->pos, p->pos, 200.0f * dt);
             if (Vector2Distance(v->pos, p->pos) < 30.0f) {

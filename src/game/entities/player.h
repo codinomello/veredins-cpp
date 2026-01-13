@@ -17,7 +17,7 @@ typedef struct Player {
     bool is_online;
 } Player;
 
-void player_init(Player* p, f32 x, f32 y);
+void player_init(Player* p, Vector2 pos);
 void player_update(Player* p, const Map* map, Input* input, f32 dt);
 void player_draw(const Player* p);
 void player_take_damage(Player* p, f32 damage);
