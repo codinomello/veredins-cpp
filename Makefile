@@ -46,7 +46,7 @@ cmake-build: $(BUILD_DIR)/Makefile
 	cmake --build $(BUILD_DIR) --config Release
 
 $(BUILD_DIR)/Makefile:
-	-$(MKDIR) "$(BUILD_DIR)" 2>NUL
+	-$(MKDIR) "$(BUILD_DIR)"
 	cmake -S . -B $(BUILD_DIR) $(CMAKE_GENERATOR) -DCMAKE_BUILD_TYPE=Release
 
 cmake-run: cmake-build
