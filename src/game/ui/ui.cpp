@@ -1,14 +1,17 @@
 #include "game/core/constants.h"
-#include "game/entities/entity.h"
+#include "game/elements/element.h"
 #include "ui.h"
 
-void ui_init(Ui* ui, Font font) {
+void ui_init(Ui* ui) {
     *ui = {
-        .font = font,
+        .font = GetFontDefault(), // helvetica = (LoadFontEx(FONT_PATH, UI_FONT_SIZE, nullptr, 0))
         .score = 0,
         .veredim_count = INITIAL_VEREDIM_COUNT,
         .selected_element = ELEMENT_FIRE
+
     };
+    // configura o filtro da fonte para não ficar borrada ao redimensionar
+    // SetTextureFilter(ui->font.texture, TEXTURE_FILTER_BILINEAR);
 }
 
 void ui_update(Ui* ui, f32 dt) {
@@ -38,25 +41,26 @@ void ui_draw(const Ui* ui, i32 player_health, i32 player_max_health,
     DrawTextEx(ui->font, TextFormat("HP: %d/%d", player_health, player_max_health), 
                Vector2{static_cast<f32>(WINDOW_WIDTH - 210), 25}, 16, 2, WHITE);
     
-    // indicador de tipo selecionado
-    DrawRectangle(WINDOW_WIDTH - 120, 70, 100, 45, ColorAlpha(BLACK, 0.7f));
-    DrawTextEx(ui->font, "TIPO:", Vector2{static_cast<f32>(WINDOW_WIDTH - 115), 75}, 12, 1, GRAY);
+     // indicador de tipo selecionado
+    DrawRectangle(WINDOW_WIDTH - 120, 70, 100, 40, ColorAlpha(BLACK, 0.7f));
+    DrawText("TIPO:", WINDOW_WIDTH - 115, 75, 12, GRAY);
+    DrawCircleV(Vector2{(f32)WINDOW_WIDTH - 60, 90}, 12, 
+                element_get_color(ui->selected_element));
     
-    Color elem_color = entity_get_color(ui->selected_element);
-    DrawCircleV(Vector2{static_cast<f32>(WINDOW_WIDTH - 60), 95}, 12, elem_color);
+    // controles
+    DrawRectangle(0, WINDOW_HEIGHT - 35, WINDOW_WIDTH, 35, ColorAlpha(BLACK, 0.7f));
+    DrawText("WASD: Mover | SPACE: Whistle | CLICK: Arremessar | TAB: Trocar Tipo", 
+             10, WINDOW_HEIGHT - 25, 14, LIGHTGRAY);
     
-    // tela de game over
+    // game over
     if (game_over) {
-        DrawRectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, ColorAlpha(BLACK, 0.5f));
-        
-        const char* dead_text = "GAME OVER";
-        Vector2 size = MeasureTextEx(ui->font, dead_text, 40, 2);
-        DrawTextEx(ui->font, dead_text, 
-                   Vector2{(WINDOW_WIDTH - size.x) / 2, (WINDOW_HEIGHT - size.y) / 2}, 
-                   40, 2, RED);
-                   
-        DrawTextEx(ui->font, "Pressione [R] para reiniciar", 
-                   Vector2{(WINDOW_WIDTH - 200) / 2, (WINDOW_HEIGHT / 2) + 50}, 
-                   16, 2, RAYWHITE);
+        DrawRectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, ColorAlpha(BLACK, 0.8f));
+        DrawText("GAME OVER", WINDOW_WIDTH/2 - 150, WINDOW_HEIGHT/2 - 80, 60, RED);
+        DrawText(TextFormat("SCORE FINAL: %d", ui->score), 
+                 WINDOW_WIDTH/2 - 120, WINDOW_HEIGHT/2, 30, YELLOW);
+        DrawText(TextFormat("WAVES: %d", wave), 
+                 WINDOW_WIDTH/2 - 80, WINDOW_HEIGHT/2 + 40, 24, WHITE);
+        DrawText("Pressione ESC para sair", WINDOW_WIDTH/2 - 110, 
+                 WINDOW_HEIGHT/2 + 90, 20, GRAY);
     }
 }

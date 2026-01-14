@@ -1,7 +1,7 @@
-#ifndef GAME_CORE_CAMERA_H
-#define GAME_CORE_CAMERA_H
+#ifndef GAME_CAMERA_CAMERA_H
+#define GAME_CAMERA_CAMERA_H
 
-#include "types.h"
+#include "game/core/types.h"
 
 #include "raylib.h"
 
@@ -13,4 +13,4 @@ typedef struct GameCamera {
 void camera_init(GameCamera* cam, Vector2 pos);
 void camera_update(GameCamera* cam, Vector2 player_pos, Vector2 player_look, f32 dt);
 
-#endif // GAME_CORE_CAMERA_H
+#endif // GAME_CAMERA_CAMERA_H

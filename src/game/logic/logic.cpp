@@ -10,12 +10,12 @@ void logic_spawn_wave(Game* g) {
     // spawna criaturas baseado na wave atual
     for (int i = 0; i < g->wave * 2; i++) {
         auto c = std::make_unique<Creature>();
-        f32 rx = (f32)GetRandomValue(100, 1100);
-        f32 ry = (f32)GetRandomValue(100, 600);
-        creature_init(c.get(), rx, ry, ELEMENT_PLANT, (u8)g->wave);
+        Vector2 random = { (f32)GetRandomValue(100, 1100), (f32)GetRandomValue(100, 600) };
+        creature_init(c.get(), random, ELEMENT_PLANT, (u8)g->wave);
         g->creatures.push_back(std::move(c));
     }
 }
+
 
 void logic_spawn_creatures(Game* g, u32 count) {
     for (u32 i = 0; i < count; i++) {
@@ -23,15 +23,17 @@ void logic_spawn_creatures(Game* g, u32 count) {
         
         Vector2 spawn_pos;
         do {
-            spawn_pos = Vector2{ (f32)(rand() % 2000), (f32)(rand() % 2000) };
-        } while (Vector2Distance(spawn_pos, g->player.pos) < 300.0f);
+            spawn_pos = Vector2{
+                (f32)(rand() % 1000 + 200),
+                (f32)(rand() % 600 + 100)
+            };
+        } while (Vector2Distance(spawn_pos, g->player.pos) < 200.0f);
         
-        // Sincronizado com entity.h
-        u16 elements[] = { ELEMENT_FIRE, ELEMENT_WATER, ELEMENT_PLANT, ELEMENT_LIGHT };
-        u16 element = elements[rand() % 4];
-        u8 level = 1 + (u8)(g->wave / 2);
+        u16 elements[] = {ELEMENT_FIRE, ELEMENT_WATER, ELEMENT_PLANT, ELEMENT_ELECTRIC, ELEMENT_EARTH, ELEMENT_ICE};
+        u16 element = elements[rand() % 6];
+        i32 level = 1 + (g->wave / 2);
         
-        creature_init(c.get(), spawn_pos.x, spawn_pos.y, element, level);
+        creature_init(c.get(), spawn_pos, level, element);
         g->creatures.push_back(std::move(c));
     }
 }
@@ -40,8 +42,10 @@ void logic_spawn_objects(Game* g, u32 count) {
     for (u32 i = 0; i < count; i++) {
         auto obj = std::make_unique<Object>();
         ObjectType type = (ObjectType)(rand() % 4);
-        Vector2 spawn_pos = { (f32)(rand() % 2000), (f32)(rand() % 2000) };
-        
+        Vector2 spawn_pos = {
+            (f32)(rand() % 1000 + 200),
+            (f32)(rand() % 600 + 100)
+        };
         object_init(obj.get(), spawn_pos.x, spawn_pos.y, type);
         g->objects.push_back(std::move(obj));
     }

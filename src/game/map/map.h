@@ -1,7 +1,8 @@
-#ifndef GAME_WORLD_MAP_H
-#define GAME_WORLD_MAP_H
+#ifndef GAME_MAP_MAP_H
+#define GAME_MAP_MAP_H
 
 #include "game/core/types.h"
+
 #include "raylib.h"
 
 typedef struct Map {
@@ -15,4 +16,4 @@ void map_draw(const Map* map);
 bool map_is_solid(const Map* map, i32 tile_x, i32 tile_y);
 void map_shutdown(Map* map);
 
-#endif
+#endif // GAME_MAP_MAP_H

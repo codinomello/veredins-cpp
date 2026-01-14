@@ -2,7 +2,7 @@
 #define GAME_INPUT_INPUT_H
 
 #include "game/core/types.h"
-#include "game/core/camera.h"
+#include "game/camera/camera.h"
 #include "game/ui/ui.h"
 
 #include "raylib.h"

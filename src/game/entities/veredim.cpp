@@ -1,15 +1,18 @@
 #include <cmath>
 
 #include "veredim.h"
+
 #include "raymath.h"
 
-void veredim_init(Veredim* v, f32 x, f32 y, u16 element) {
+void veredim_init(Veredim* v, Vector2 pos, u16 element) {
     *v = {
-        .pos = { x, y },
+        .pos = pos,
         .vel = { 0, 0 },
         .radius = 5.5f,
-        .orbit_angle = 0,
-        .state_timer = 0,
+        .capture_radius = 80.0f,
+        .orbit_angle = 0.0f,
+        .state_timer = 0.0f,
+        .panic_timer = 0.0f,
         .health = 50,
         .max_health = 50,
         .attack = 10,
@@ -25,35 +28,67 @@ void veredim_init(Veredim* v, f32 x, f32 y, u16 element) {
     };
 }
 
-void veredim_update(Veredim* v, Player* p, u32 total_count, u32 index, f32 dt) {
-if (!v->is_alive) return;
+void veredim_update(Veredim* v, Vector2 player_pos, f32 dt) {
+    if (!v->is_alive) return;
+    
     v->state_timer += dt;
+    
+    // diminui pânico ao longo do tempo
+    if (v->panic_timer > 0) {
+        v->panic_timer -= dt;
+    }
+    
     switch (v->state) {
         case VEREDIM_FOLLOW: {
-            // órbita com camadas
-            f32 orbit_radius = 50.0f + (v->layer * 25.0f);
-            f32 angle_step = (2.0f * PI) / (f32)total_count;
-            v->orbit_angle = (f32)index * angle_step + (v->state_timer * 1.5f);
-            
-            Vector2 target = {
-                p->pos.x + cosf(v->orbit_angle) * orbit_radius,
-                p->pos.y + sinf(v->orbit_angle) * orbit_radius
-            };
-            v->pos = Vector2Lerp(v->pos, target, 8.0f * dt);
+            // movimento de órbita ao redor do player
+        f32 orbit_radius = (v->layer == 0) ? 40.0f : 80.0f;
+        
+        // Velocidade de rotação (ajuste o 2.0f para girar mais rápido ou devagar)
+        v->orbit_angle += 2.0f * dt; 
+
+        // Cálculo da posição usando coordenadas polares (Conserta a espiral)
+        v->pos.x = player_pos.x + cosf(v->orbit_angle) * orbit_radius;
+        v->pos.y = player_pos.y + sinf(v->orbit_angle) * orbit_radius;
         } break;
+        
         case VEREDIM_THROWN: {
             v->pos = Vector2Add(v->pos, Vector2Scale(v->vel, dt));
-            v->vel = Vector2Scale(v->vel, 0.95f); // fricção
+            v->vel = Vector2Scale(v->vel, 0.95f);
             
-            if (v->state_timer > 2.0f) {
+            if (v->state_timer > 2.0f || Vector2Length(v->vel) < 50.0f) {
                 v->state = VEREDIM_RETURN;
+                v->state_timer = 0;
             }
         } break;
+        
+        case VEREDIM_ATTACK: {
+            // estado de ataque - move-se em direção ao alvo
+            // (lógica de alvo será gerenciada no game.cpp)
+        } break;
+        
+        case VEREDIM_CARRY: {
+            // estado de carregar objeto
+            // (lógica de carregamento será gerenciada no game.cpp)
+        } break;
+        
+        case VEREDIM_CAPTURED: {
+            // estado de captura
+            // (lógica será gerenciada no game.cpp)
+        } break;
+        
         case VEREDIM_RETURN: {
-            v->pos = Vector2MoveTowards(v->pos, p->pos, 200.0f * dt);
-            if (Vector2Distance(v->pos, p->pos) < 30.0f) {
+            v->pos = Vector2MoveTowards(v->pos, player_pos, 200.0f * dt);
+            if (Vector2Distance(v->pos, player_pos) < 30.0f) {
                 v->state = VEREDIM_FOLLOW;
                 v->state_timer = 0;
+            }
+        } break;
+        
+        case VEREDIM_DECEASED: {
+            // sendo comido - não faz nada, só aguarda a morte
+            v->health -= 50 * dt;
+            if (v->health <= 0) {
+                v->is_alive = false;
             }
         } break;
     }
@@ -62,7 +97,7 @@ if (!v->is_alive) return;
 void veredim_draw(const Veredim* v, f32 game_time) {
     if (!v->is_alive) return;
     
-    Color color = entity_get_color(v->element_mask);
+    Color color = element_get_color(v->element_mask);
     
     // aura pulsante
     f32 pulse = sinf(game_time * 4.0f + v->orbit_angle) * 2.0f;

@@ -2,9 +2,8 @@
 #define GAME_ENTITY_PLAYER_H
 
 #include "game/core/types.h"
-#include "game/world/map.h"
 #include "game/input/input.h"
-#include "entity.h"
+#include "game/elements/element.h"
 
 typedef struct Player {
     Vector2 pos;
@@ -18,7 +17,7 @@ typedef struct Player {
 } Player;
 
 void player_init(Player* p, Vector2 pos);
-void player_update(Player* p, const Map* map, Input* input, f32 dt);
+void player_update(Player* p, Input* input, f32 dt);
 void player_draw(const Player* p);
 void player_take_damage(Player* p, f32 damage);
 

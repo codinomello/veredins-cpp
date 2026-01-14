@@ -2,7 +2,7 @@
 #define GAME_ENTITY_VEREDIM_H
 
 #include "game/core/types.h"
-#include "entity.h"
+#include "game/elements/element.h"
 #include "player.h"
 #include "creature.h"
 
@@ -11,16 +11,20 @@ typedef enum VeredimState : u8 {
     VEREDIM_FOLLOW,
     VEREDIM_THROWN,
     VEREDIM_ATTACK,
-    VEREDIM_CAPTURE,
-    VEREDIM_RETURN
+    VEREDIM_CARRY,
+    VEREDIM_RETURN,
+    VEREDIM_CAPTURED,
+    VEREDIM_DECEASED
 } VeredimState;
 
 typedef struct Veredim {
     Vector2 pos;
     Vector2 vel;
     f32 radius;
+    f32 capture_radius;
     f32 orbit_angle;
     f32 state_timer;
+    f32 panic_timer;
     i32 health;
     i32 max_health;
     i32 attack;
@@ -36,8 +40,8 @@ typedef struct Veredim {
     VeredimState state;
 } Veredim;
 
-void veredim_init(Veredim* v, f32 x, f32 y, u16 element_mask);
-void veredim_update(Veredim* v, Player* p, u32 total_count, u32 index, f32 dt);
+void veredim_init(Veredim* v, Vector2 pos, u16 element_mask);
+void veredim_update(Veredim* v, Vector2 player_pos, f32 dt);
 void veredim_draw(const Veredim* v, f32 game_time);
 void veredim_check_evolution(Veredim* v);
 void veredim_give_xp(Veredim* v, i32 amount);

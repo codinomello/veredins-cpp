@@ -1,9 +1,10 @@
 #include <vector>
 #include <memory>
 
-#include "game/entities/entity.h"
+#include "game/elements/element.h"
 #include "game/entities/veredim.h"
 #include "input.h"
+
 #include "raymath.h"
 
 void input_init(Input* input) {
@@ -27,12 +28,12 @@ void input_update(Input* input, GameCamera* cam, Ui* ui) {
     
     // input de troca de elemento
     if (IsKeyPressed(KEY_TAB)) {
-        ui->selected_element = (EntityType)(ui->selected_element << 1);
-        if (ui->selected_element > ELEMENT_LIGHT) ui->selected_element = ELEMENT_FIRE;
+        ui->selected_element = (Element)(ui->selected_element << 1);
+        if (ui->selected_element > ELEMENT_METAL) ui->selected_element = ELEMENT_FIRE;
     }
 
     // ações
-    input->whistle = IsKeyPressed(KEY_SPACE);
+    input->whistle = IsKeyDown(KEY_SPACE);
     input->throw_veredim = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     input->dismiss_veredim = IsKeyPressed(KEY_Q);
     input->switch_veredim_type = IsKeyPressed(KEY_TAB);

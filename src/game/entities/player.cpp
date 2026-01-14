@@ -1,6 +1,7 @@
 #include <cmath>
 
 #include "player.h"
+
 #include "raymath.h"
 
 void player_init(Player* p, Vector2 pos) {
@@ -16,7 +17,7 @@ void player_init(Player* p, Vector2 pos) {
     };
 }
 
-void player_update(Player* p, const Map* map, Input* input, f32 dt) {
+void player_update(Player* p, Input* input, f32 dt) {
     if (!p->is_alive) return;
     p->pos.x += input->move.x * p->speed * dt;
     p->pos.y += input->move.y * p->speed * dt;
@@ -48,8 +49,8 @@ void player_draw(const Player* p) {
     // texto (apenas o número, sem o "max")
     DrawText(
         TextFormat("%d", p->health),
-        (int)p->pos.x + 22,
-        (int)p->pos.y - 34,
+        p->pos.x + 22,
+        p->pos.y - 34,
         10, ColorAlpha(WHITE, 0.8f)
     );
 }
