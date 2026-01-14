@@ -21,6 +21,7 @@ typedef struct Game {
     u32 window_width;
     u32 window_height;
     std::string window_title;
+    std::vector<Element> elements;
     std::vector<std::unique_ptr<Veredim>> veredins;
     std::vector<std::unique_ptr<Creature>> creatures;
     std::vector<std::unique_ptr<Object>> objects;

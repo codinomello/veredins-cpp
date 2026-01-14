@@ -16,10 +16,10 @@ void input_update(Input* input, GameCamera* cam, Ui* ui) {
     input->move = { 0 };
     
     // movimento
-    if (IsKeyDown(KEY_A)) input->move.x -= 1.0f;
-    if (IsKeyDown(KEY_D)) input->move.x += 1.0f;
-    if (IsKeyDown(KEY_W)) input->move.y -= 1.0f;
-    if (IsKeyDown(KEY_S)) input->move.y += 1.0f;
+    if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))    input->move.y -= 1.0f;
+    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))  input->move.x -= 1.0f;
+    if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))  input->move.y += 1.0f;
+    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) input->move.x += 1.0f;
     
     // normaliza para o player não andar mais rápido na diagonal
     if (Vector2Length(input->move) > 0) {

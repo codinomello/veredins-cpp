@@ -1,8 +1,8 @@
 #include "object.h"
 
-void object_init(Object* o, f32 x, f32 y, ObjectType type) {
+void object_init(Object* o, Vector2 pos, ObjectType type) {
     *o = {
-        .pos = {x, y},
+        .pos = pos,
         .radius = 8.0f,
         .weight = type == OBJECT_CORPSE ? 5 : (type == OBJECT_TREASURE ? 3 : 1),
         .value = type == OBJECT_TREASURE ? 50 : (type == OBJECT_CRYSTAL ? 20 : 10),

@@ -10,7 +10,6 @@ void veredim_init(Veredim* v, Vector2 pos, u16 element) {
         .vel = { 0, 0 },
         .radius = 5.5f,
         .capture_radius = 80.0f,
-        .orbit_angle = 0.0f,
         .state_timer = 0.0f,
         .panic_timer = 0.0f,
         .health = 50,
@@ -20,11 +19,20 @@ void veredim_init(Veredim* v, Vector2 pos, u16 element) {
         .xp = 0,
         .element_mask = element,
         .level = 1,
-        .layer = 0,
         .evolution_stage = 0,
         .is_alive = true,
         .is_carrying = false,
-        .state = VEREDIM_FOLLOW
+        .orbits = {
+            { .radius = 40.0f, .capacity = 9, .current = 0 },  // camada interna
+            { .radius = 75.0f, .capacity = 27, .current = 0 }, // camada média
+            { .radius = 115.0f, .capacity = 81, .current = 0 } // camada externa
+        },
+        .state = VEREDIM_FOLLOW,
+        .orbit = {
+            .angle = 0.0f,
+            .layer = 0,
+            
+        }
     };
 }
 
@@ -32,23 +40,26 @@ void veredim_update(Veredim* v, Vector2 player_pos, f32 dt) {
     if (!v->is_alive) return;
     
     v->state_timer += dt;
-    
+
     // diminui pânico ao longo do tempo
     if (v->panic_timer > 0) {
         v->panic_timer -= dt;
     }
-    
+
     switch (v->state) {
         case VEREDIM_FOLLOW: {
-            // movimento de órbita ao redor do player
-        f32 orbit_radius = (v->layer == 0) ? 40.0f : 80.0f;
-        
-        // Velocidade de rotação (ajuste o 2.0f para girar mais rápido ou devagar)
-        v->orbit_angle += 2.0f * dt; 
+            if (!v->is_alive || v->state != VEREDIM_FOLLOW) return;
 
-        // Cálculo da posição usando coordenadas polares (Conserta a espiral)
-        v->pos.x = player_pos.x + cosf(v->orbit_angle) * orbit_radius;
-        v->pos.y = player_pos.y + sinf(v->orbit_angle) * orbit_radius;
+            // Define os raios com base na camada salva na struct
+            f32 dists[] = { 40.0f, 75.0f, 115.0f };
+            f32 current_radius = dists[v->orbit.layer];
+
+            // Faz as camadas de fora girarem levemente mais devagar
+            f32 speed_multiplier = 1.0f - (v->orbit.layer * 0.2f);
+            v->orbit.angle += 2.0f * speed_multiplier * dt;
+
+            v->pos.x = player_pos.x + cosf(v->orbit.angle) * current_radius;
+            v->pos.y = player_pos.y + sinf(v->orbit.angle) * current_radius;
         } break;
         
         case VEREDIM_THROWN: {
@@ -77,8 +88,20 @@ void veredim_update(Veredim* v, Vector2 player_pos, f32 dt) {
         } break;
         
         case VEREDIM_RETURN: {
-            v->pos = Vector2MoveTowards(v->pos, player_pos, 200.0f * dt);
-            if (Vector2Distance(v->pos, player_pos) < 30.0f) {
+            const float dists[3] = { 40.0f, 75.0f, 115.0f };
+            f32 r = dists[v->orbit.layer];
+            
+            // Alvo na órbita (onde ele DEVERIA estar agora)
+            Vector2 target_orbit_pos = {
+                player_pos.x + cosf(v->orbit.angle) * r,
+                player_pos.y + sinf(v->orbit.angle) * r
+            };
+
+            // Move suavemente em direção ao lugar dele na órbita
+            v->pos = Vector2Lerp(v->pos, target_orbit_pos, 10.0f * dt);
+
+            // Se estiver perto o suficiente, volta a seguir normalmente
+            if (Vector2Distance(v->pos, target_orbit_pos) < 10.0f) {
                 v->state = VEREDIM_FOLLOW;
                 v->state_timer = 0;
             }
@@ -100,7 +123,7 @@ void veredim_draw(const Veredim* v, f32 game_time) {
     Color color = element_get_color(v->element_mask);
     
     // aura pulsante
-    f32 pulse = sinf(game_time * 4.0f + v->orbit_angle) * 2.0f;
+    f32 pulse = sinf(game_time * 4.0f + v->orbit.angle) * 2.0f;
     DrawCircleLinesV(v->pos, v->radius + 4.0f + pulse, ColorAlpha(color, 0.4f));
     
     // corpo

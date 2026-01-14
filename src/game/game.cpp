@@ -37,28 +37,37 @@ void game_init(Game* g) {
     // inicializa ui
     ui_init(&g->ui);
 
-    Element elements[] = {
-        ELEMENT_FIRE, ELEMENT_WATER, ELEMENT_PLANT, ELEMENT_ELECTRIC, 
-        ELEMENT_EARTH, ELEMENT_ICE, ELEMENT_POISON, ELEMENT_METAL
+    g->elements = { ELEMENT_FIRE, ELEMENT_WATER, ELEMENT_PLANT, ELEMENT_ELECTRIC,  ELEMENT_EARTH, ELEMENT_ICE, ELEMENT_POISON, ELEMENT_METAL };
+
+    std::vector<VeredimOrbit> orbits = {
+        { .radius = 40.0f, .capacity = 9, .current = 0 },  // camada interna
+        { .radius = 75.0f, .capacity = 27, .current = 0 }, // camada média
+        { .radius = 115.0f, .capacity = 81, .current = 0 } // camada externa
     };
 
-    int total_spawned = 0;
-    for (int e = 0; e < 8; e++) {
-        for (int i = 0; i < 3; i++) {
+    u32 total_spawned = 0;
+    u32 count_per_element = INITIAL_VEREDIM_COUNT / 8;
+    for (u32 e = 0; e < g->elements.size(); e++) {
+        for (u32 i = 0; i < count_per_element; i++) {
+            // se já atingimos o limite total da constante, paramos
+            if (total_spawned >= INITIAL_VEREDIM_COUNT) break;
             auto v = std::make_unique<Veredim>();
-            veredim_init(v.get(), g->player.pos, elements[e]);
+            
+            // Inicializa os dados básicos
+            veredim_init(v.get(), g->player.pos, g->elements[e]);
 
-            // Organização por camadas:
-            // Layer 0: primeiros 8 veredins (Raio menor)
-            // Layer 1: veredins de 9 a 24 (Raio maior)
-            if (total_spawned < 8) {
-                v->layer = 0;
-                v->orbit_angle = total_spawned * (360.0f / 8.0f);
-            } else {
-                v->layer = 1;
-                v->orbit_angle = (total_spawned - 8) * (360.0f / 16.0f);
+            for (u32 l = 0; l < 3; l++) {
+                if (orbits[l].current < orbits[l].capacity) {
+                    v->orbit.layer = l;
+                    f32 angle_step = (2.0f * PI) / (f32)orbits[l].capacity;
+                    v->orbit.angle = orbits[l].current * angle_step;
+                    
+                    orbits[l].current++;
+                    break;
+                }
             }
 
+            // Move para a lista global e limpa o v local
             g->veredins.push_back(std::move(v));
             total_spawned++;
         }
@@ -71,70 +80,6 @@ void game_init(Game* g) {
     g->is_game_over = false;
 }
 
-// void game_update(Game* g, f32 dt) {
-//     if (g->is_game_over) {
-//         if (IsKeyPressed(KEY_R)) game_init(g);
-//         return;
-//     }
-//     g->time += dt;
-
-//     // atualiza o player
-//     player_update(&g->player, &g->map, &g->input, dt);
-
-//     // atualiza o input
-//     input_update(&g->input, &g->camera, &g->ui);
-
-//     // atualiza a camera
-//     camera_update(&g->camera, g->player.pos, g->input.move, dt);
-
-//     // atualiza os veredins (sistema de órbita e seguimento)
-//     for (auto& v : g->veredins) {
-//         if (v->is_alive) {
-//             veredim_update(v.get(), g->player.pos, dt);
-//         }
-//     }
-
-//     // atualiza as criaturas
-//     for (auto& c : g->creatures) {
-//         if (c->is_alive) {
-//             creature_update(c.get(), g->player.pos, dt);
-//         }
-//     }
-
-//     // TEMPORARIO
-//     if (g->input.throw_veredim) {
-//         for (u32 i = 0; i < (u32)g->veredins.size(); i++) {
-//             Veredim* v = (g->veredins)[i].get();
-//             // só arremessa se ele estiver a seguir o player (disponível na órbita)
-//             if (v->state == VEREDIM_FOLLOW) {
-//                 v->state = VEREDIM_THROWN;
-//                 v->state_timer = 0.0f;
-                
-//                 Vector2 diff = Vector2Subtract(g->input.mouse_pos, v->pos);
-//                 v->vel = Vector2Scale(Vector2Normalize(diff), 750.0f);
-                
-//                 break; 
-//             }
-//         }
-//     }
-
-//     // remove as criaturas
-//     for (int i = g->creatures.size() - 1; i >= 0; i--) {
-//         Creature* c = g->creatures[i].get();
-//         if (!c->is_alive) {
-//             // remove o elemento na posição i
-//             g->creatures.erase(g->creatures.begin() + i);
-//         } else {
-//             creature_update(c, g->player.pos, dt);
-//         }
-//     }
-
-//     // sincroniza a ui
-//     g->ui.score = g->wave * 100;
-//     g->ui.veredim_count = (i32)g->veredins.size();
-//     if (g->player.health <= 0) g->is_game_over = true;
-// }
-
 void game_update(Game* g, f32 dt) {
     if (g->is_game_over) {
         if (IsKeyPressed(KEY_R)) game_init(g);
@@ -146,21 +91,18 @@ void game_update(Game* g, f32 dt) {
     // atualiza o input
     input_update(&g->input, &g->camera, &g->ui);
     
+    // atualiza player
+    player_update(&g->player, &g->input, dt);
+
     // troca tipo selecionado
     if (g->input.switch_veredim_type) {
-        u16 types[] = {
-            ELEMENT_FIRE, ELEMENT_WATER, ELEMENT_PLANT, ELEMENT_ELECTRIC, 
-            ELEMENT_EARTH, ELEMENT_ICE, ELEMENT_POISON, ELEMENT_METAL
-        };
-        for (i32 i = 0; i < 8; i++) {
-            if (g->ui.selected_element == types[i]) {
-                g->ui.selected_element = types[(i + 1) % 8]; // Rotaciona entre os 8
+        for (i32 i = 0; i < g->elements.size(); i++) {
+            if (g->ui.selected_element == g->elements[i]) {
+                g->ui.selected_element = g->elements[i++]; // rotaciona entre os tipos
                 break;
             }
         }
     }
-    // atualiza player
-    player_update(&g->player, &g->input, dt);
     
     // whistle
     if (g->input.whistle) {
@@ -198,6 +140,12 @@ void game_update(Game* g, f32 dt) {
             for (auto& c : g->creatures) {
                 if (!c->is_alive || c->state == CREATURE_EAT) continue;
                 
+                if (CheckCollisionCircles(g->player.pos, 15.0f, c->pos, c->radius)) {
+                f32 dist = Vector2Distance(g->player.pos, c->pos);
+                f32 overlap = (15.0f + c->radius) - dist;
+                Vector2 normal = Vector2Normalize(Vector2Subtract(g->player.pos, c->pos));
+                g->player.pos = Vector2Add(g->player.pos, Vector2Scale(normal, overlap));
+        }
                 f32 dist = Vector2Distance(v->pos, c->pos);
                 if (dist < v->radius + c->radius + 5.0f) {
                     if (v->state == VEREDIM_THROWN) {
@@ -236,8 +184,8 @@ void game_update(Game* g, f32 dt) {
                             auto new_v = std::make_unique<Veredim>();
                             veredim_init(new_v.get(), c->pos, c->element_mask);
                             new_v->level = c->level;
-                            new_v->layer = (i32)(g->veredins.size() / 10);
-                            new_v->orbit_angle = ((f32)g->veredins.size() * 0.5f);
+                            new_v->orbit.layer = (i32)(g->veredins.size() / 10);
+                            new_v->orbit.angle = ((f32)g->veredins.size() * 0.5f);
                             g->veredins.push_back(std::move(new_v));
                             
                             g->ui.score += 100;
@@ -320,6 +268,21 @@ void game_update(Game* g, f32 dt) {
                 target_veredim_pos = v->pos;
                 closest_idx = (i32)j;
             }
+
+            // colisão
+            Veredim* v1 = g->veredins[i].get();
+            Veredim* v2 = g->veredins[j].get();
+            if (!v1->is_alive || !v2->is_alive) continue;
+
+            if (CheckCollisionCircles(v1->pos, v1->radius, v2->pos, v2->radius)) {
+                f32 dist = Vector2Distance(v1->pos, v2->pos);
+                f32 overlap = (v1->radius + v2->radius) - dist;
+                // Previne divisão por zero se estiverem exatamente no mesmo lugar
+                Vector2 normal = (dist <= 0) ? Vector2{1, 0} : Vector2Normalize(Vector2Subtract(v1->pos, v2->pos));
+                
+                v1->pos = Vector2Add(v1->pos, Vector2Scale(normal, overlap * 0.5f));
+                v2->pos = Vector2Subtract(v2->pos, Vector2Scale(normal, overlap * 0.5f));
+            }
         }
         
         creature_update(c, g->player.pos, target_veredim_pos, dt);
@@ -362,7 +325,7 @@ void game_update(Game* g, f32 dt) {
         if (c->health <= 0 && c->is_alive) {
             c->is_alive = false;
             auto corpse = std::make_unique<Object>();
-            object_init(corpse.get(), c->pos.x, c->pos.y, OBJECT_CORPSE);
+            object_init(corpse.get(), c->pos, OBJECT_CORPSE);
             corpse->value = c->level * 10;
             g->objects.push_back(std::move(corpse));
         }

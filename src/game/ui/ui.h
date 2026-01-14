@@ -2,6 +2,8 @@
 #define GAME_UI_UI_H
 
 #include "game/core/types.h"
+#include "game/elements/element.h"
+
 #include "raylib.h"
 
 typedef struct Ui {

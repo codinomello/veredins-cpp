@@ -18,7 +18,7 @@ typedef enum Element {
     ELEMENT_LIGHT    = 1u << 8
 } Element;
 
-Color element_get_color(u16 element_mask);
+Color element_get_color(u16 elem_mask);
 f32 element_effectiveness(u16 attacker, u16 defender);
 
 #endif // GAME_ELEMENTS_ELEMENT_H

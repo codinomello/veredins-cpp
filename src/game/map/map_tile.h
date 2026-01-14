@@ -2,8 +2,7 @@
 #define GAME_TILE_MAP_TILE_H
 
 #include "game/core/types.h"
-
-constexpr int TILE_SIZE = 32;
+#include "game/core/constants.h"
 
 typedef enum Tile {
     TILE_EMPTY = 0,

@@ -8,7 +8,7 @@
 
 void logic_spawn_wave(Game* g) {
     // spawna criaturas baseado na wave atual
-    for (int i = 0; i < g->wave * 2; i++) {
+    for (u32 i = 0; i < g->wave * 2; i++) {
         auto c = std::make_unique<Creature>();
         Vector2 random = { (f32)GetRandomValue(100, 1100), (f32)GetRandomValue(100, 600) };
         creature_init(c.get(), random, ELEMENT_PLANT, (u8)g->wave);
@@ -46,7 +46,7 @@ void logic_spawn_objects(Game* g, u32 count) {
             (f32)(rand() % 1000 + 200),
             (f32)(rand() % 600 + 100)
         };
-        object_init(obj.get(), spawn_pos.x, spawn_pos.y, type);
+        object_init(obj.get(), spawn_pos, type);
         g->objects.push_back(std::move(obj));
     }
 }

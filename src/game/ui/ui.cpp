@@ -34,14 +34,14 @@ void ui_draw(const Ui* ui, i32 player_health, i32 player_max_health,
                Vector2{200, 35}, 16, 2, LIGHTGRAY);
     
     // coluna direita - vida do player
-    f32 hp_ratio = static_cast<f32>(player_health) / static_cast<f32>(player_max_health);
+    f32 hp_ratio = (f32)player_health / (f32)(player_max_health);
     DrawRectangle(WINDOW_WIDTH - 220, 20, 200, 25, ColorAlpha(BLACK, 0.8f));
-    DrawRectangle(WINDOW_WIDTH - 218, 22, static_cast<i32>(196 * hp_ratio), 21, 
+    DrawRectangle(WINDOW_WIDTH - 218, 22, (i32)(196 * hp_ratio), 21, 
                   hp_ratio > 0.3f ? GREEN : RED);
     DrawTextEx(ui->font, TextFormat("HP: %d/%d", player_health, player_max_health), 
-               Vector2{static_cast<f32>(WINDOW_WIDTH - 210), 25}, 16, 2, WHITE);
+               Vector2{(f32)(WINDOW_WIDTH - 210), 25}, 16, 2, WHITE);
     
-     // indicador de tipo selecionado
+    // indicador de tipo selecionado
     DrawRectangle(WINDOW_WIDTH - 120, 70, 100, 40, ColorAlpha(BLACK, 0.7f));
     DrawText("TIPO:", WINDOW_WIDTH - 115, 75, 12, GRAY);
     DrawCircleV(Vector2{(f32)WINDOW_WIDTH - 60, 90}, 12, 

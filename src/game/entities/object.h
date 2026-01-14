@@ -24,7 +24,7 @@ typedef struct Object {
     ObjectType type;
 } Object;
 
-void object_init(Object* o, f32 x, f32 y, ObjectType type);
+void object_init(Object* o, Vector2 pos, ObjectType type);
 void object_draw(const Object* o);
 
 #endif // GAME_ENTITIES_OBJECT
