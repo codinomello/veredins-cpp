@@ -1,5 +1,5 @@
-#ifndef GAME_TILE_MAP_TILE_H
-#define GAME_TILE_MAP_TILE_H
+#ifndef VEREDINS_GAME_MAP_MAP_TILE_H
+#define VEREDINS_GAME_MAP_MAP_TILE_H
 
 #include "game/core/types.h"
 #include "game/core/constants.h"
@@ -15,4 +15,4 @@ typedef enum Tile {
 
 bool tile_is_solid(Tile t);
 
-#endif // GAME_TILE_MAP_TILE_H
+#endif // VEREDINS_GAME_MAP_MAP_TILE_H

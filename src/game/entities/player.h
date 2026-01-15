@@ -1,5 +1,5 @@
-#ifndef GAME_ENTITY_PLAYER_H
-#define GAME_ENTITY_PLAYER_H
+#ifndef VEREDINS_GAME_ENTITIES_PLAYER_H
+#define VEREDINS_GAME_ENTITIES_PLAYER_H
 
 #include "game/core/types.h"
 #include "game/input/input.h"
@@ -21,4 +21,4 @@ void player_update(Player* p, Input* input, f32 dt);
 void player_draw(const Player* p);
 void player_take_damage(Player* p, f32 damage);
 
-#endif // GAME_ENTITY_PLAYER_H
+#endif // VEREDINS_GAME_ENTITIES_PLAYER_H

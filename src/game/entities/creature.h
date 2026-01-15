@@ -1,5 +1,5 @@
-#ifndef GAME_ENTITIES_CREATURE_H
-#define GAME_ENTITIES_CREATURE_H
+#ifndef VEREDINS_GAME_ENTITIES_CREATURE_H
+#define VEREDINS_GAME_ENTITIES_CREATURE_H
 
 #include "game/core/types.h"
 
@@ -41,4 +41,4 @@ void creature_init(Creature* c, Vector2 pos, u16 element, u8 level);
 void creature_update(Creature* c, Vector2 player_pos, Vector2 veredim_pos, f32 dt);
 void creature_draw(const Creature* c);
 
-#endif // GAME_ENTITIES_CREATURE_H
+#endif // VEREDINS_GAME_ENTITIES_CREATURE_H

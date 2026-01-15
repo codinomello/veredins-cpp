@@ -1,5 +1,5 @@
-#ifndef GAME_GAME_H
-#define GAME_GAME_H
+#ifndef VEREDINS_GAME_GAME_H
+#define VEREDINS_GAME_GAME_H
 
 #include <vector>
 #include <memory>
@@ -41,4 +41,4 @@ void game_update(Game* g, f32 dt);
 void game_render(Game* g);
 void game_shutdown(Game* g);
 
-#endif // GAME_GAME_H
+#endif // VEREDINS_GAME_GAME_H

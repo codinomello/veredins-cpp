@@ -1,5 +1,5 @@
-#ifndef GAME_MAP_MAP_H
-#define GAME_MAP_MAP_H
+#ifndef VEREDINS_GAME_MAP_MAP_H
+#define VEREDINS_GAME_MAP_MAP_H
 
 #include "game/core/types.h"
 
@@ -16,4 +16,4 @@ void map_draw(const Map* map);
 bool map_is_solid(const Map* map, i32 tile_x, i32 tile_y);
 void map_shutdown(Map* map);
 
-#endif // GAME_MAP_MAP_H
+#endif // VEREDINS_GAME_MAP_MAP_H

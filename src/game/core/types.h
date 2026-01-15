@@ -1,5 +1,5 @@
-#ifndef GAME_CORE_TYPES_H
-#define GAME_CORE_TYPES_H
+#ifndef VEREDINS_GAME_CORE_TYPES_H
+#define VEREDINS_GAME_CORE_TYPES_H
 
 #include <cstdint>
 
@@ -19,4 +19,4 @@ using u64 = uint64_t;
 using f32 = float;
 using f64 = double;
 
-#endif // GAME_CORE_TYPES_H
+#endif // VEREDINS_GAME_CORE_TYPES_H

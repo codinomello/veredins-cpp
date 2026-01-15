@@ -1,5 +1,5 @@
-#ifndef GAME_ENTITIES_OBJECT
-#define GAME_ENTITIES_OBJECT
+#ifndef VEREDINS_GAME_ENTITIES_OBJECT
+#define VEREDINS_GAME_ENTITIES_OBJECT
 
 #include "game/core/types.h"
 
@@ -27,4 +27,4 @@ typedef struct Object {
 void object_init(Object* o, Vector2 pos, ObjectType type);
 void object_draw(const Object* o);
 
-#endif // GAME_ENTITIES_OBJECT
+#endif // VEREDINS_GAME_ENTITIES_OBJECT

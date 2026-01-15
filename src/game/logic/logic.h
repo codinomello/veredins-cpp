@@ -1,5 +1,5 @@
-#ifndef GAME_LOGIC_LOGIC_H
-#define GAME_LOGIC_LOGIC_H
+#ifndef VEREDINS_GAME_LOGIC_LOGIC_H
+#define VEREDINS_GAME_LOGIC_LOGIC_H
 
 #include <vector>
 #include <memory>
@@ -16,4 +16,4 @@ void logic_spawn_wave(Game* g);
 void logic_spawn_creatures(Game* g, u32 count);
 void logic_spawn_objects(Game* g, u32 count);
 
-#endif // GAME_LOGIC_LOGIC_H
+#endif // VEREDINS_GAME_LOGIC_LOGIC_H

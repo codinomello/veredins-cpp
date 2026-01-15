@@ -1,5 +1,5 @@
-#ifndef GAME_UI_UI_H
-#define GAME_UI_UI_H
+#ifndef VEREDINS_GAME_UI_UI_H
+#define VEREDINS_GAME_UI_UI_H
 
 #include "game/core/types.h"
 #include "game/elements/element.h"
@@ -17,4 +17,4 @@ void ui_init(Ui* Ui);
 void ui_update(Ui* Ui, f32 dt);
 void ui_draw(const Ui* ui, i32 player_health, i32 player_max_health, i32 wave, f32 game_time, bool game_over);
 
-#endif
+#endif // VEREDINS_GAME_UI_UI_H

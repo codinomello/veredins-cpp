@@ -1,4 +1,4 @@
-# Guia de Estilo C++ – Escrevendo C++ como C Moderno 🛠️
+# Veredins - Guia de Estilo
 
 Este guia define as regras para o projeto do jogo, onde vamos escrever **C++ como se fosse C moderno**: código simples, previsível, eficiente e sem abstrações pesadas.
 

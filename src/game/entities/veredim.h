@@ -1,5 +1,5 @@
-#ifndef GAME_ENTITY_VEREDIM_H
-#define GAME_ENTITY_VEREDIM_H
+#ifndef VEREDINS_GAME_ENTITIES_VEREDIM_H
+#define VEREDINS_GAME_ENTITIES_VEREDIM_H
 
 #include <vector>
 
@@ -57,4 +57,4 @@ void veredim_draw(const Veredim* v, f32 game_time);
 void veredim_check_evolution(Veredim* v);
 void veredim_give_xp(Veredim* v, i32 amount);
 
-#endif // GAME_ENTITY_VEREDIM_H
+#endif // VEREDINS_GAME_ENTITIES_VEREDIM_H

@@ -1,5 +1,5 @@
-#ifndef GAME_INPUT_INPUT_H
-#define GAME_INPUT_INPUT_H
+#ifndef VEREDINS_GAME_INPUT_INPUT_H
+#define VEREDINS_GAME_INPUT_INPUT_H
 
 #include "game/core/types.h"
 #include "game/camera/camera.h"
@@ -19,4 +19,4 @@ typedef struct Input {
 void input_init(Input* input);
 void input_update(Input* input, GameCamera* cam, Ui* ui);
 
-#endif // GAME_INPUT_INPUT_H
+#endif // VEREDINS_GAME_INPUT_INPUT_H

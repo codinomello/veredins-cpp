@@ -1,5 +1,5 @@
-#ifndef GAME_ELEMENTS_ELEMENT_H
-#define GAME_ELEMENTS_ELEMENT_H
+#ifndef VEREDINS_GAME_ELEMENTS_ELEMENT_H
+#define VEREDINS_GAME_ELEMENTS_ELEMENT_H
 
 #include "game/core/types.h"
 
@@ -21,4 +21,4 @@ typedef enum Element {
 Color element_get_color(u16 elem_mask);
 f32 element_effectiveness(u16 attacker, u16 defender);
 
-#endif // GAME_ELEMENTS_ELEMENT_H
+#endif // VEREDINS_GAME_ELEMENTS_ELEMENT_H

@@ -1,5 +1,5 @@
-#ifndef GAME_CORE_CONSTANTS_H
-#define GAME_CORE_CONSTANTS_H
+#ifndef VEREDINS_GAME_CORE_CONSTANTS_H
+#define VEREDINS_GAME_CORE_CONSTANTS_H
 
 #include <string>
 
@@ -30,4 +30,4 @@ inline constexpr u32 UI_FONT_SIZE = 16;
 inline constexpr f32 UI_MARGIN = 8;
 inline constexpr char* FONT_PATH = "assets/fonts/helvetica.ttf";
 
-#endif // GAME_CORE_CONSTANTS_H
+#endif // VEREDINS_GAME_CORE_CONSTANTS_H
