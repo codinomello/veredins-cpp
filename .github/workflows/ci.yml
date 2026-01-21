@@ -34,7 +34,7 @@ jobs:
         run: go test ./...
       
       - name: 🏗️ go build
-        run: go build ./cmd/veredins-server
+        run: go build ./cmd
 
       - name: 🐳 docker build
         run: docker build -t veredins-server .
