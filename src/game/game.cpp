@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include "core/constants.h"
+#include "common/constants.h"
 #include "logic/logic.h"
 #include "game.h"
 

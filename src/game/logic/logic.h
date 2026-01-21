@@ -4,8 +4,8 @@
 #include <vector>
 #include <memory>
 
+#include "common/types.h"
 #include "game/elements/element.h"
-#include "game/core/types.h"
 
 #include "raylib.h"
 

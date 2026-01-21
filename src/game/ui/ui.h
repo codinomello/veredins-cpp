@@ -1,7 +1,7 @@
 #ifndef VEREDINS_GAME_UI_UI_H
 #define VEREDINS_GAME_UI_UI_H
 
-#include "game/core/types.h"
+#include "common/types.h"
 #include "game/elements/element.h"
 
 #include "raylib.h"

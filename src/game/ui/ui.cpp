@@ -1,4 +1,4 @@
-#include "game/core/constants.h"
+#include "common/constants.h"
 #include "game/elements/element.h"
 #include "ui.h"
 

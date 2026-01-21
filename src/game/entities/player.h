@@ -1,7 +1,7 @@
 #ifndef VEREDINS_GAME_ENTITIES_PLAYER_H
 #define VEREDINS_GAME_ENTITIES_PLAYER_H
 
-#include "game/core/types.h"
+#include "common/types.h"
 #include "game/input/input.h"
 #include "game/elements/element.h"
 

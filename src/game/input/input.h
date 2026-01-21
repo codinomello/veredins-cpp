@@ -1,7 +1,7 @@
 #ifndef VEREDINS_GAME_INPUT_INPUT_H
 #define VEREDINS_GAME_INPUT_INPUT_H
 
-#include "game/core/types.h"
+#include "common/types.h"
 #include "game/camera/camera.h"
 #include "game/ui/ui.h"
 

@@ -1,7 +1,7 @@
 #ifndef VEREDINS_GAME_CAMERA_CAMERA_H
 #define VEREDINS_GAME_CAMERA_CAMERA_H
 
-#include "game/core/types.h"
+#include "common/types.h"
 
 #include "raylib.h"
 

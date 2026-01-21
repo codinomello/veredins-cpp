@@ -17,7 +17,7 @@
 #include <string.h> // memset
 #include <stdlib.h> // size_t
 
-#include "../game/core/types.h"
+#include "common/types.h"
 
 #define INVALID_SOCKET_VALUE    -1
 #define NETWORK_BUFFER_SIZE     2048

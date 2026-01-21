@@ -1,6 +1,6 @@
 #include <cstdlib>
 
-#include "game/core/constants.h"
+#include "common/constants.h"
 #include "game/game.h"
 #include "logic.h"
 

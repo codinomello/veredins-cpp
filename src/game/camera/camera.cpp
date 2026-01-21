@@ -1,4 +1,4 @@
-#include "game/core/constants.h"
+#include "common/constants.h"
 #include "camera.h"
 
 #include "raymath.h"

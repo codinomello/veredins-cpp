@@ -1,7 +1,7 @@
 #ifndef VEREDINS_GAME_ENTITIES_CREATURE_H
 #define VEREDINS_GAME_ENTITIES_CREATURE_H
 
-#include "game/core/types.h"
+#include "common/types.h"
 
 typedef enum CreatureState : u8 {
     CREATURE_IDLE,

@@ -1,7 +1,7 @@
 #ifndef VEREDINS_GAME_MAP_MAP_H
 #define VEREDINS_GAME_MAP_MAP_H
 
-#include "game/core/types.h"
+#include "common/types.h"
 
 #include "raylib.h"
 

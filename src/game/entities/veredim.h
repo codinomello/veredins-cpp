@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "game/core/types.h"
+#include "common/types.h"
 #include "game/elements/element.h"
 #include "player.h"
 #include "creature.h"

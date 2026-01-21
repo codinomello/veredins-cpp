@@ -1,7 +1,7 @@
 #ifndef VEREDINS_GAME_ENTITIES_OBJECT
 #define VEREDINS_GAME_ENTITIES_OBJECT
 
-#include "game/core/types.h"
+#include "common/types.h"
 
 #include "raylib.h"
 
