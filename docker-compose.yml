@@ -1,11 +1,35 @@
-version: '3.8'
-
 services:
+  db:
+    image: postgres:16
+    container_name: veredins-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   server:
-    image: veredins-server:latest
-    container_name: veredins-server   # ← Nome padrão fixo aqui!
+    build:
+      context: ./server
+    container_name: veredins-server
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB}
     ports:
       - "12345:12345/udp"
-    restart: unless-stopped           # opcional: reinicia se cair
-    # environment:                    # se precisar de vars como PORT
-    #   - PORT=12345
+    restart: unless-stopped
+
+volumes:
+  db-data:
